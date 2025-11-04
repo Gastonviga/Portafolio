@@ -1,0 +1,144 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{hyperref}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\setlist{leftmargin=*}
+\hypersetup{colorlinks=true,linkcolor=blue,urlcolor=blue}
+
+\title{Resumen: Redes de Hopfield}
+\date{}
+
+\begin{document}
+\maketitle
+
+
+\section*{Conceptos Clave}
+\begin{itemize}
+  \item \textbf{Definición}: Una red de Hopfield es una red neuronal recurrente, totalmente conectada, usada como \textit{memoria asociativa} de contenido direccionable.
+  \item \textbf{Codificación y pesos}: Neuronas binarias bipolares $s_i \in \{-1,+1\}$, pesos simétricos $w_{ij}=w_{ji}$ y sin autoconexión ($w_{ii}=0$).
+  \item \textbf{Dinámica}: Actualización (preferentemente asincrónica) con regla de activación signo; la red desciende una \textit{función de energía} y converge a atractores.
+  \item \textbf{Aprendizaje}: Regla de Hebb para almacenar patrones; variantes como seudoinversa o Storkey mejoran la capacidad.
+  \item \textbf{Capacidad}: Para patrones aleatorios independientes, $p_{\max} \approx 0.138\,N$ (bajo error) en el caso binario clásico.
+  \item \textbf{Fenómenos clave}: Cuencas de atracción, estados espurios (mezclas), efecto de correlaciones y sesgos.
+  \item \textbf{Variantes}: Modelos continuos con activación sigmoidal y versiones estocásticas (ruido térmico) relacionadas con el modelo de Ising.
+\end{itemize}
+
+\section*{Desarrollo del Tema}
+\textbf{Estructura y notación.} Una red de Hopfield con $N$ neuronas tiene estado $s=(s_1,\dots,s_N)^\top$, $s_i\in\{-1,+1\}$. La entrada local a la neurona $i$ es
+\[
+h_i = \sum_{j=1}^N w_{ij}\, s_j - \theta_i,
+\]
+donde $W=[w_{ij}]$ es simétrica, $w_{ii}=0$, y $\theta_i$ son umbrales (a menudo $\theta_i=0$).
+
+\medskip
+\textbf{Dinámica de actualización.}
+\begin{itemize}
+  \item \textit{Asincrónica}: $s_i \leftarrow \operatorname{sign}(h_i)$, una neurona a la vez (orden fijo o aleatorio).
+  \item \textit{Sincrónica}: todas las neuronas se actualizan simultáneamente. Puede producir ciclos de longitud 2; no siempre garantiza descenso energético en cada paso.
+\end{itemize}
+
+\textbf{Función de energía (Lyapunov).} Para $w_{ij}=w_{ji}$ y $w_{ii}=0$, la energía del estado $s$ es
+\[
+E(s) = -\frac{1}{2}\sum_{\substack{i,j=1\\ i\neq j}}^N w_{ij}s_i s_j + \sum_{i=1}^N \theta_i s_i.
+\]
+Con actualización asincrónica determinista se cumple $\Delta E \le 0$; por tanto, la dinámica converge a puntos fijos (mínimos locales de $E$) que actúan como \textit{atractores}.
+
+\medskip
+\textbf{Aprendizaje (almacenamiento de patrones).}
+Dados $p$ patrones bipolares $\{x^{(1)},\ldots,x^{(p)}\}$, $x^{(\mu)}\in\{-1,+1\}^N$, la regla de Hebb clásica es
+\[
+W \;=\; \frac{1}{N}\sum_{\mu=1}^p x^{(\mu)} \big(x^{(\mu)}\big)^\top,\qquad w_{ii}=0.
+\]
+Si los patrones son aproximadamente ortogonales y $p$ es moderado, cada $x^{(\mu)}$ suele ser un punto fijo. Otras reglas:
+\begin{itemize}
+  \item \textit{Seudoinversa}: $W = X\,(X^\top X)^{-1}X^\top$, con $X=[x^{(1)},\dots,x^{(p)}]$, seguida de $w_{ii}\!=\!0$. Mejora recuperación para patrones correlacionados.
+  \item \textit{Storkey}: aprendizaje local que reduce estados espurios y mejora capacidad efectiva.
+\end{itemize}
+
+\medskip
+\textbf{Recuperación y robustez.}
+Dado un \textit{indicio} ruidoso $\tilde{x}$, se itera la dinámica hasta converger a un atractor. El tamaño de la \textit{cuenca de atracción} determina cuánta perturbación se tolera. El desempeño empeora con patrones altamente correlacionados.
+
+\medskip
+\textbf{Capacidad de almacenamiento.}
+Para patrones aleatorios independientes en la red binaria clásica:
+\[
+p_{\max} \approx 0.138\, N
+\]
+para tasas de error pequeñas. Correlaciones entre patrones y sesgos de actividad disminuyen la capacidad. Codificación \textit{dispersa} (actividad baja) con umbrales adecuados puede aumentar la capacidad y reducir espurios.
+
+\medskip
+\textbf{Estados espurios.}
+Además de los patrones almacenados, la red puede presentar mínimos no deseados:
+\[
+s_{\text{mixto}} = \operatorname{sign}\big(\pm x^{(\alpha)} \pm x^{(\beta)} \pm x^{(\gamma)}\big),
+\]
+así como estados tipo \textit{spin-glass}. Estrategias de mitigación: reglas de aprendizaje mejoradas, \textit{unlearning}, centrado/balanceo de patrones y codificación dispersa.
+
+\medskip
+\textbf{Ejemplo práctico (4 neuronas).}
+Considérese $N=4$ y dos patrones:
+\[
+x^{(1)}=\begin{pmatrix} 1\\ -1\\ 1\\ -1\end{pmatrix},\quad
+x^{(2)}=\begin{pmatrix} 1\\ 1\\ -1\\ -1\end{pmatrix}.
+\]
+Con Hebb:
+\[
+W \;=\; \frac{1}{4}\Big(x^{(1)}{x^{(1)}}^\top + x^{(2)}{x^{(2)}}^\top\Big),\quad w_{ii}=0,
+\]
+lo que produce
+\[
+W=\begin{pmatrix}
+0 & 0 & 0 & -\tfrac{1}{2}\\
+0 & 0 & -\tfrac{1}{2} & 0\\
+0 & -\tfrac{1}{2} & 0 & 0\\
+-\tfrac{1}{2} & 0 & 0 & 0
+\end{pmatrix}.
+\]
+Verificación de punto fijo (con $\theta=0$) para $x^{(1)}$: si $h=Ws$, entonces
+\[
+h_1=-\tfrac{1}{2}s_4=\tfrac{1}{2},\; h_2=-\tfrac{1}{2}s_3=-\tfrac{1}{2},\; h_3=-\tfrac{1}{2}s_2=\tfrac{1}{2},\; h_4=-\tfrac{1}{2}s_1=-\tfrac{1}{2},
+\]
+y $\operatorname{sign}(h)=x^{(1)}$, por lo que $x^{(1)}$ es estable. Un análisis análogo muestra que $x^{(2)}$ también lo es.
+
+\medskip
+\textbf{Versión continua.}
+Con salidas continuas $v_i\in[0,1]$ (o $[-1,1]$) y activación $g(\cdot)$, la dinámica típica es
+\[
+\tau \frac{dv_i}{dt} = -v_i + g\!\left(\sum_j w_{ij}v_j + I_i\right),
+\]
+con energía Lyapunov
+\[
+E(v) = -\frac{1}{2}\sum_{i\neq j} w_{ij} v_i v_j + \sum_{i} \int_0^{v_i} g^{-1}(u)\,du - \sum_i I_i v_i,
+\]
+que decrece bajo dinámica apropiada.
+
+\medskip
+\textbf{Hopfield estocástico (temperatura).}
+Con \textit{ruido térmico} (inverso de temperatura $\beta$), la actualización puede ser probabilística:
+\[
+\Pr\big(s_i=+1\big)=\sigma\!\big(2\beta\,h_i\big),\quad \sigma(z)=\frac{1}{1+e^{-z}},
+\]
+relacionando la red con modelos de Ising y máquinas de Boltzmann. Técnicas como \textit{annealing} ayudan a escapar de mínimos pobres.
+
+\medskip
+\textbf{Complejidad y aspectos prácticos.}
+Un barrido completo de actualización cuesta $O(N^2)$ operaciones. Para uso efectivo: normalizar pesos, ajustar umbrales, escoger patrones poco correlacionados y considerar reglas de aprendizaje mejoradas si se requiere mayor capacidad o menos espurios.
+
+\section*{Puntos de Estudio}
+\begin{itemize}
+  \item Ecuaciones fundamentales: actualización $s_i\!\leftarrow\!\operatorname{sign}(\sum_j w_{ij}s_j-\theta_i)$ y energía $E(s)=-\tfrac{1}{2}\sum_{i\neq j} w_{ij}s_is_j+\sum_i \theta_i s_i$.
+  \item Condiciones para convergencia: $W$ simétrica, $w_{ii}=0$, actualización asincrónica.
+  \item Regla de Hebb y sus límites; impacto de correlaciones y sesgo en la capacidad.
+  \item Capacidad típica $p_{\max}\!\approx\!0.138N$ y efecto de la codificación dispersa.
+  \item Estados espurios: qué son, por qué aparecen y cómo mitigarlos.
+  \item Diferencias entre versiones binaria, continua y estocástica; cuándo elegir cada una.
+  \item Ejemplo de construcción de $W$ a partir de patrones y verificación de puntos fijos.
+\end{itemize}
+
+
+\end{document}
