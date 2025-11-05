@@ -155,36 +155,3 @@ body {
 .animate-rotate-star {
   animation: rotateStar 20s linear infinite;
 }
-
-/* Animación de círculo que recorre el hero */
-@keyframes orbitCircle {
-  0% {
-    top: 10%;
-    left: 10%;
-    transform: translate(-50%, -50%);
-  }
-  25% {
-    top: 10%;
-    left: 90%;
-    transform: translate(-50%, -50%);
-  }
-  50% {
-    top: 90%;
-    left: 90%;
-    transform: translate(-50%, -50%);
-  }
-  75% {
-    top: 90%;
-    left: 10%;
-    transform: translate(-50%, -50%);
-  }
-  100% {
-    top: 10%;
-    left: 10%;
-    transform: translate(-50%, -50%);
-  }
-}
-
-.animate-orbit-circle {
-  animation: orbitCircle 4s linear infinite;
-}

@@ -50,11 +50,6 @@ export function Hero() {
             />
           </svg>
         </div>
-        
-        {/* Círculo con gradiente que recorre el hero */}
-        <div className="absolute w-64 h-64 animate-orbit-circle">
-          <div className="w-full h-full rounded-full bg-gradient-to-br from-blue-500/40 via-cyan-400/50 to-blue-600/40 blur-2xl animate-pulse" />
-        </div>
       </div>
 
       <div className="relative max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 sm:gap-16 lg:gap-24 items-center z-10">
