@@ -12,6 +12,8 @@ export function PageWrapper({ children }: PageWrapperProps) {
   const [showContent, setShowContent] = useState(false);
 
   useEffect(() => {
+    // Forzar scroll al inicio
+    window.scrollTo(0, 0);
     // Deshabilitar scroll durante la carga
     document.body.style.overflow = "hidden";
 
@@ -24,7 +26,9 @@ export function PageWrapper({ children }: PageWrapperProps) {
         setShowContent(true);
         // Habilitar scroll después de que el contenido esté visible
         document.body.style.overflow = "auto";
-      }, 500);
+        // Asegurar que el scroll esté en la parte superior
+        window.scrollTo(0, 0);
+      }, 600);
     }, 2000); // 2 segundos de animación
 
     return () => {

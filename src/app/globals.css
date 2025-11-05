@@ -1,10 +1,17 @@
 @import "tailwindcss";
 
-/* Establecer fondo blanco */
-body {
-  background-color: #fff;
+/* Reset y estilos base */
+html {
+  scroll-behavior: smooth;
   margin: 0;
   padding: 0;
+}
+
+body {
+  background-color: #000;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }
 
 /* Animaciones de fade up */
@@ -17,6 +24,57 @@ body {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Animación sutil fadeInUp */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Animación continua sutil para "Hola, soy" */
+@keyframes gentleFloat {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  25% {
+    transform: translateY(-4px) scale(1.01);
+    opacity: 0.85;
+  }
+  50% {
+    transform: translateY(-6px) scale(1.01);
+    opacity: 0.75;
+  }
+  75% {
+    transform: translateY(-4px) scale(1.01);
+    opacity: 0.85;
+  }
+}
+
+@keyframes fadeInUpAndFloat {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-2px) scale(1.01);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-gentle-float {
+  animation: fadeInUpAndFloat 1s ease-out 0.1s forwards, gentleFloat 4s ease-in-out 1.2s infinite;
 }
 
 .animate-fade-up {

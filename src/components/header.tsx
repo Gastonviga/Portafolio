@@ -48,16 +48,16 @@ export function Header() {
   };
 
   return (
-    <header className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-4xl transition-all duration-1000 ${
+    <header className={`fixed top-0 left-0 z-50 w-full transition-all duration-1000 ${
       isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"
     }`}>
-      <nav className="bg-white/95 backdrop-blur-md rounded-full shadow-xl border border-gray-100 px-2 py-2 sm:px-4 sm:py-3 flex items-center justify-around sm:justify-center sm:gap-2">
+      <nav className="bg-transparent backdrop-blur-sm px-2 py-2 sm:px-4 sm:py-3 flex items-center justify-around sm:justify-center sm:gap-2">
         <button
           onClick={() => scrollToSection("inicio")}
           className={`rounded-full px-3 py-2 sm:px-5 sm:py-2.5 flex items-center gap-1 sm:gap-2 transition-all duration-200 hover:scale-105 cursor-pointer ${
             activeSection === "inicio"
-              ? "bg-black text-white"
-              : "text-gray-700 hover:bg-gray-100"
+              ? "bg-white/20 text-white backdrop-blur-sm"
+              : "text-white/70 hover:text-white hover:bg-white/10"
           }`}
         >
           <svg
@@ -79,8 +79,8 @@ export function Header() {
           onClick={() => scrollToSection("acerca")}
           className={`rounded-full px-3 py-2 sm:px-5 sm:py-2.5 flex items-center gap-1 sm:gap-2 transition-all duration-200 hover:scale-105 cursor-pointer ${
             activeSection === "acerca"
-              ? "bg-black text-white"
-              : "text-gray-700 hover:bg-gray-100"
+              ? "bg-white/20 text-white backdrop-blur-sm"
+              : "text-white/70 hover:text-white hover:bg-white/10"
           }`}
         >
           <svg
@@ -102,8 +102,8 @@ export function Header() {
           onClick={() => scrollToSection("proyectos")}
           className={`rounded-full px-3 py-2 sm:px-5 sm:py-2.5 flex items-center gap-1 sm:gap-2 transition-all duration-200 hover:scale-105 cursor-pointer ${
             activeSection === "proyectos"
-              ? "bg-black text-white"
-              : "text-gray-700 hover:bg-gray-100"
+              ? "bg-white/20 text-white backdrop-blur-sm"
+              : "text-white/70 hover:text-white hover:bg-white/10"
           }`}
         >
           <svg
@@ -124,8 +124,8 @@ export function Header() {
           onClick={() => scrollToSection("servicios")}
           className={`rounded-full px-3 py-2 sm:px-5 sm:py-2.5 flex items-center gap-1 sm:gap-2 transition-all duration-200 hover:scale-105 cursor-pointer ${
             activeSection === "servicios"
-              ? "bg-black text-white"
-              : "text-gray-700 hover:bg-gray-100"
+              ? "bg-white/20 text-white backdrop-blur-sm"
+              : "text-white/70 hover:text-white hover:bg-white/10"
           }`}
         >
           <svg
