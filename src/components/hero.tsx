@@ -27,6 +27,34 @@ export function Hero() {
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-slate-700/10 rounded-full blur-3xl animate-pulse" />
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
         <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl" style={{ animationDelay: '2s' }} />
+        
+        {/* Estrella rotando con gradiente */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] animate-rotate-star opacity-30">
+          <svg
+            className="w-full h-full"
+            viewBox="0 0 200 200"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <defs>
+              <linearGradient id="starGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#94a3b8" stopOpacity="0.3" />
+                <stop offset="50%" stopColor="#3b82f6" stopOpacity="0.5" />
+                <stop offset="100%" stopColor="#06b6d4" stopOpacity="0.3" />
+              </linearGradient>
+            </defs>
+            <path
+              d="M100 20 L120 80 L180 80 L130 120 L150 180 L100 140 L50 180 L70 120 L20 80 L80 80 Z"
+              fill="url(#starGradient)"
+              className="blur-sm"
+            />
+          </svg>
+        </div>
+        
+        {/* Círculo con gradiente que recorre el hero */}
+        <div className="absolute w-64 h-64 animate-orbit-circle">
+          <div className="w-full h-full rounded-full bg-gradient-to-br from-blue-500/40 via-cyan-400/50 to-blue-600/40 blur-2xl animate-pulse" />
+        </div>
       </div>
 
       <div className="relative max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 sm:gap-16 lg:gap-24 items-center z-10">
