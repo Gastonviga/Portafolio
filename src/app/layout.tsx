@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Header } from "@/components/header";
-import { PageWrapper } from "@/components/page-wrapper";
+import { SmoothScroll } from "@/components/smooth-scroll";
+import { StarBackground } from "@/components/star-background";
+import { PageLoader } from "@/components/page-loader";
 
 export const metadata: Metadata = {
-  title: "Pagina Personal ",
-  description: "Pagina Personal de Luis Cortes",
+  title: "Ema | Desarrollador Web & IA",
+  description: "Portafolio de Ema - Estudiante de Inteligencia Artificial y desarrollador web especializado en crear experiencias digitales innovadoras.",
 };
 
 export default function RootLayout({
@@ -15,11 +17,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body>
-        <PageWrapper>
-          <Header />
-          {children}
-        </PageWrapper>
+      <body className="bg-[var(--bg)] text-[var(--fg)] min-h-screen antialiased">
+        <PageLoader />
+        <StarBackground />
+        <SmoothScroll />
+        <Header />
+        {children}
       </body>
     </html>
   );

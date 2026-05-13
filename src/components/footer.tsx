@@ -1,117 +1,115 @@
+"use client";
+
+const MARQUEE_TEXT = "Ema · Desarrollador Web · Inteligencia Artificial · Full Stack · Penguin Labs · ";
+
+const SOCIAL_LINKS = [
+  { name: "LinkedIn", href: "https://www.linkedin.com/in/gast%C3%B3n-vigabriel-281626318/" },
+  { name: "GitHub", href: "https://github.com/Gastonviga" },
+];
+
+const NAV_LINKS = [
+  { label: "Inicio", href: "#inicio" },
+  { label: "Acerca", href: "#acerca" },
+  { label: "Proyectos", href: "#proyectos" },
+  { label: "Servicios", href: "#servicios" },
+];
+
 export function Footer() {
   return (
-    <footer className="bg-black text-white py-12 sm:py-16 px-4 sm:px-6">
+    <footer className="relative pt-20 pb-8 px-6 sm:px-8 overflow-hidden">
+      {/* Marquee band */}
+      <div className="border-t border-b border-[var(--border)] py-5 mb-16 overflow-hidden">
+        <div className="flex whitespace-nowrap animate-marquee">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <span
+              key={i}
+              className="text-[clamp(1.5rem,4vw,3rem)] font-bold tracking-tight text-[var(--fg)]/[0.04] mx-4 shrink-0 select-none"
+            >
+              {MARQUEE_TEXT}
+            </span>
+          ))}
+        </div>
+      </div>
+
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-12 mb-8 sm:mb-12">
-          {/* Columna 1 - Información */}
-          <div className="text-center sm:text-left">
-            <h3 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
-              Luis
-            </h3>
-            <p className="text-gray-400 leading-relaxed text-sm">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr] gap-12 sm:gap-16 mb-16">
+          {/* Brand */}
+          <div>
+            <div className="flex items-center gap-2.5 mb-4">
+              <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Logo pingüino">
+                <ellipse cx="16" cy="18" rx="9" ry="11" fill="#1a1a2e" />
+                <ellipse cx="16" cy="19.5" rx="5.5" ry="7.5" fill="#f5f0e8" />
+                <ellipse cx="16" cy="8" rx="7" ry="6.5" fill="#1a1a2e" />
+                <ellipse cx="16" cy="8.5" rx="4.5" ry="4" fill="#f5f0e8" />
+                <circle cx="13.8" cy="7" r="1.2" fill="#1a1a2e" />
+                <circle cx="14.1" cy="6.7" r="0.4" fill="white" />
+                <circle cx="18.2" cy="7" r="1.2" fill="#1a1a2e" />
+                <circle cx="18.5" cy="6.7" r="0.4" fill="white" />
+                <path d="M14.5 10 L16 12 L17.5 10 Z" fill="#E8A849" />
+                <ellipse cx="7.5" cy="18" rx="2.5" ry="5" fill="#1a1a2e" transform="rotate(-10 7.5 18)" />
+                <ellipse cx="24.5" cy="18" rx="2.5" ry="5" fill="#1a1a2e" transform="rotate(10 24.5 18)" />
+                <ellipse cx="13" cy="29" rx="3" ry="1.2" fill="#E8A849" />
+                <ellipse cx="19" cy="29" rx="3" ry="1.2" fill="#E8A849" />
+              </svg>
+              <span className="text-lg font-bold text-[var(--fg)]">Ema</span>
+            </div>
+            <p className="text-sm text-[var(--fg-muted)] leading-relaxed max-w-xs">
               Desarrollador Web y estudiante de Inteligencia Artificial.
               Creando soluciones innovadoras con código.
             </p>
           </div>
 
-          {/* Columna 2 - Enlaces rápidos */}
-          <div className="text-center sm:text-left">
-            <h4 className="text-xs font-semibold text-gray-500 mb-4 sm:mb-5 tracking-widest uppercase">
-              Enlaces rápidos
+          {/* Navigation */}
+          <div>
+            <h4 className="text-[11px] font-semibold text-[var(--fg-muted)] mb-5 tracking-[0.2em] uppercase">
+              Navegación
             </h4>
-            <ul className="space-y-2 sm:space-y-3">
-              <li>
-                <a
-                  href="#inicio"
-                  className="text-gray-400 hover:text-white transition-colors text-sm duration-200"
-                >
-                  Inicio
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#proyectos"
-                  className="text-gray-400 hover:text-white transition-colors text-sm duration-200"
-                >
-                  Proyectos
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#servicios"
-                  className="text-gray-400 hover:text-white transition-colors text-sm duration-200"
-                >
-                  Servicios
-                </a>
-              </li>
+            <ul className="space-y-3">
+              {NAV_LINKS.map((link) => (
+                <li key={link.label}>
+                  <a
+                    href={link.href}
+                    className="text-sm text-[var(--fg-muted)] hover:text-[var(--fg)] transition-colors duration-200"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Columna 3 - Redes sociales */}
-          <div className="text-center sm:text-left">
-            <h4 className="text-xs font-semibold text-gray-500 mb-4 sm:mb-5 tracking-widest uppercase">
-              Sígueme
+          {/* Social */}
+          <div>
+            <h4 className="text-[11px] font-semibold text-[var(--fg-muted)] mb-5 tracking-[0.2em] uppercase">
+              Conectar
             </h4>
-            <div className="flex gap-4 justify-center sm:justify-start">
-              <a
-                href="https://instagram.com/luiscortespenguin"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-pink-500 transition-all hover:scale-110 transform duration-200"
-              >
-                <svg
-                  width="22"
-                  height="22"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-                </svg>
-              </a>
-              <a
-                href="https://www.linkedin.com/in/luis-cort%C3%A9s-penguin/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-blue-500 transition-all hover:scale-110 transform duration-200"
-              >
-                <svg
-                  width="22"
-                  height="22"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                </svg>
-              </a>
-              <a
-                href="https://github.com/luisjosuecortes"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-all hover:scale-110 transform duration-200"
-              >
-                <svg
-                  width="22"
-                  height="22"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-                </svg>
-              </a>
-            </div>
+            <ul className="space-y-3">
+              {SOCIAL_LINKS.map((link) => (
+                <li key={link.name}>
+                  <a
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-[var(--fg-muted)] hover:text-[var(--warm)] transition-colors duration-200"
+                  >
+                    {link.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 
-        {/* Divider */}
-        <div className="border-t border-gray-900 pt-6 sm:pt-8">
-          <p className="text-gray-500 text-center text-xs sm:text-sm">
-            © {new Date().getFullYear()} Penguin Labs. Todos los derechos reservados.
+        {/* Bottom bar */}
+        <div className="border-t border-[var(--border)] pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-[11px] text-[var(--fg-muted)]/50 tracking-wide">
+            © {new Date().getFullYear()} Penguin Labs
+          </p>
+          <p className="text-[11px] text-[var(--fg-muted)]/50 tracking-wide">
+            Buenos Aires, Argentina
           </p>
         </div>
       </div>
     </footer>
   );
 }
-
-
-

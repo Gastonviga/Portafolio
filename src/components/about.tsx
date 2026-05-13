@@ -1,172 +1,160 @@
-"use client";
+import Image from "next/image";
 
-import { useState, useEffect, useRef } from "react";
+interface TimelineEntry {
+  year: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  type: "education" | "work";
+}
+
+const TIMELINE: TimelineEntry[] = [
+  {
+    year: "Actual",
+    title: "FullStack Developer",
+    subtitle: "ClauStudio",
+    description: "Proyectos en Paginas web y Aplicaciones web, totalmente personalizadas y optimizadas para el usuario, aplicandolas para el enfoque cotidiano de la empresa.",
+    type: "work",
+  },
+  {
+    year: "Actual",
+    title: "Licenciatura en Ciencias en Datos",
+    subtitle: "Universidad de Buenos Aires (UBA)",
+    description: "Cursando actualmente",
+    type: "education",
+  },
+];
+
+const SKILLS = ["Python", "AI/ML", "Docker", "TypeScript", "React", "Node.js", "Git"];
 
 export function About() {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.2 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, []);
-
   return (
     <section
-      ref={sectionRef}
       id="acerca"
-      className={`relative min-h-screen flex items-center justify-center px-6 py-20 overflow-hidden transition-all duration-1000 scroll-mt-16 ${
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-      }`}
-      style={{
-        background: 'linear-gradient(135deg, #000000 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #000000 100%)',
-      }}
+      className="relative py-24 sm:py-32 px-6 sm:px-8 overflow-hidden scroll-mt-16"
     >
-      {/* Degradados sutiles decorativos */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-slate-700/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-        <div className="absolute top-1/2 right-1/2 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl" style={{ animationDelay: '2s' }} />
-      </div>
-
-      <div className="relative max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center z-10">
-        {/* Columna izquierda - Información */}
-        <div className="space-y-8 order-1 lg:order-1">
-          <div className="transform transition-all duration-700 ease-out hover:scale-105" 
-               style={{ 
-                 animation: isVisible ? 'fadeUp 0.8s ease-out 0.3s forwards' : 'none',
-                 opacity: 0 
-               }}>
-            <h2 className="text-5xl lg:text-6xl font-bold text-white mb-4">
-              Acerca de{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-300 via-blue-400 to-cyan-400 animate-pulse">
-                Mí
-              </span>
-            </h2>
-          </div>
-
-          <div className="transform transition-all duration-700 ease-out hover:translate-x-2" 
-               style={{ 
-                 animation: isVisible ? 'fadeUp 0.8s ease-out 0.4s forwards' : 'none',
-                 opacity: 0 
-               }}>
-            <h3 className="text-2xl font-bold text-white mb-3">
-              Luis Cortés
-            </h3>
-            <p className="text-lg text-gray-300 leading-relaxed">
-              Estudiante de{" "}
-              <span className="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-slate-300 to-blue-400">
-                Inteligencia Artificial
-              </span>{" "}
-              en sus últimos semestres en la Universidad Autónoma del Estado de Morelos. 
-              Apasionado por la programación, el desarrollo web y la ciencia de datos.
-            </p>
-          </div>
-
-          <div className="transform transition-all duration-700 ease-out hover:translate-x-2" 
-               style={{ 
-                 animation: isVisible ? 'fadeUp 0.8s ease-out 0.5s forwards' : 'none',
-                 opacity: 0 
-               }}>
-            <h4 className="text-xl font-bold text-white mb-3 flex items-center gap-2">
-              <span className="inline-block w-1 h-6 bg-gradient-to-b from-blue-400 to-cyan-400 rounded-full animate-pulse" /> Educación
-            </h4>
-            <div className="space-y-2 text-gray-300">
-              <p className="hover:text-white transition-colors">
-                <span className="font-semibold">
-                  Universidad Autónoma del Estado de Morelos (UAEM)
+      <div className="relative max-w-7xl w-full mx-auto z-10">
+        {/* Section header — editorial style */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-16 lg:gap-24 items-start">
+          {/* Left column — sticky image + intro */}
+          <div className="lg:sticky lg:top-28">
+            <div className="space-y-8">
+              {/* Eyebrow */}
+              <div className="flex items-center gap-3">
+                <span className="h-px w-8 bg-[var(--cold)]" />
+                <span className="text-xs font-semibold tracking-[0.2em] uppercase text-[var(--fg-muted)]">
+                  Acerca de mí
                 </span>
+              </div>
+
+              <h2 className="text-[clamp(2rem,5vw,3.5rem)] font-bold leading-[1.1] tracking-tight">
+                <span className="text-[var(--fg)]">Gaston</span>
+                <br />
+                <span className="text-gradient-dual">Vigabriel</span>
+              </h2>
+
+              <p className="text-base text-[var(--fg-muted)] leading-relaxed max-w-md">
+                Actualmente formandome en{" "}
+                <span className="text-[var(--warm)] font-medium">Ciencias en datos</span>{" "}
+               en la UBA. Apasionado por la innovación, el desarrollo web y la tecnología.
               </p>
-              <p className="text-sm hover:text-white transition-colors">Licenciatura en Inteligencia Artificial</p>
-              <p className="text-sm hover:text-white transition-colors">Actualmente estudiando</p>
+
+              {/* Photo */}
+              <div className="relative mt-8">
+                <div className="relative w-full aspect-[3/4] max-w-sm rounded-2xl overflow-hidden">
+                  <Image
+                    src="/me2.jpg"
+                    alt="Ema trabajando en proyectos de desarrollo web e IA"
+                    width={400}
+                    height={600}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg)] via-transparent to-transparent opacity-50" />
+                </div>
+                {/* Decorative line */}
+                <div className="absolute -right-4 top-8 bottom-8 w-px bg-gradient-to-b from-transparent via-[var(--cold)]/30 to-transparent hidden lg:block" />
+              </div>
             </div>
           </div>
 
-          <div className="transform transition-all duration-700 ease-out hover:translate-x-2" 
-               style={{ 
-                 animation: isVisible ? 'fadeUp 0.8s ease-out 0.6s forwards' : 'none',
-                 opacity: 0 
-               }}>
-            <h4 className="text-xl font-bold text-white mb-3 flex items-center gap-2">
-              <span className="inline-block w-1 h-6 bg-gradient-to-b from-blue-400 to-cyan-400 rounded-full animate-pulse" /> Experiencia
-            </h4>
-            <div className="space-y-2 text-gray-300">
-              <p className="hover:text-white transition-colors">
-                <span className="font-semibold">
-                  Asistente en Investigación
-                </span>{" "}
-                - UAEM CINC Morelos
-              </p>
-              <p className="text-sm hover:text-white transition-colors">
-                Proyectos en Ciencia de Datos y su aplicación en Series de
-                Tiempo (EEG, MEG, fMRI, Ritmo Cardíaco)
-              </p>
-              <p className="text-sm hover:text-white transition-colors">2025 – Actualmente</p>
-            </div>
-          </div>
+          {/* Right column — Timeline + Skills */}
+          <div className="space-y-16">
+            {/* Timeline */}
+            <div className="space-y-0">
+              <h3 className="text-xs font-semibold tracking-[0.2em] uppercase text-[var(--fg-muted)] mb-10">
+                Trayectoria
+              </h3>
 
-          <div className="transform transition-all duration-700 ease-out" 
-               style={{ 
-                 animation: isVisible ? 'fadeUp 0.8s ease-out 0.7s forwards' : 'none',
-                 opacity: 0 
-               }}>
-            <h4 className="text-xl font-bold text-white mb-3 flex items-center gap-2">
-              <span className="inline-block w-1 h-6 bg-gradient-to-b from-blue-400 to-cyan-400 rounded-full animate-pulse" /> Habilidades Técnicas
-            </h4>
-            <div className="flex flex-wrap gap-2">
-              {[
-                "Python",
-                "AI/ML",
-                "PyTorch",
-                "TypeScript",
-                "React",
-                "Node.js",
-                "Git",
-              ].map((skill, index) => (
-                <span
-                  key={skill}
-                  className="px-4 py-2 bg-white/10 border border-white/30 text-white rounded-full text-sm font-medium hover:bg-white/20 hover:border-white/50 hover:scale-110 hover:shadow-[0_0_15px_rgba(51,65,85,0.5)] transition-all duration-300 transform hover:rotate-1 backdrop-blur-sm"
-                  style={{
-                    animation: isVisible ? `fadeUp 0.5s ease-out ${0.8 + index * 0.05}s forwards` : 'none',
-                    opacity: 0
-                  }}
+              {TIMELINE.map((entry, i) => (
+                <div
+                  key={`${entry.title}-${i}`}
+                  className="group relative pl-8 pb-12 last:pb-0 border-l border-[var(--border)] hover:border-[var(--border-hover)] transition-colors duration-500"
                 >
-                  {skill}
-                </span>
+                  {/* Dot */}
+                  <div className={`absolute left-0 top-1 -translate-x-1/2 w-3 h-3 rounded-full border-2 transition-colors duration-300 ${
+                    entry.type === "work"
+                      ? "border-[var(--warm)] bg-[var(--warm)]/20 group-hover:bg-[var(--warm)]"
+                      : "border-[var(--cold)] bg-[var(--cold)]/20 group-hover:bg-[var(--cold)]"
+                  }`} />
+
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-3 flex-wrap">
+                      <span className={`text-[11px] font-semibold tracking-wider uppercase px-2.5 py-1 rounded-full ${
+                        entry.type === "work"
+                          ? "bg-[var(--warm)]/10 text-[var(--warm)]"
+                          : "bg-[var(--cold)]/10 text-[var(--cold)]"
+                      }`}>
+                        {entry.year}
+                      </span>
+                      <span className={`text-[11px] font-medium tracking-wider uppercase ${
+                        entry.type === "work" ? "text-[var(--warm)]/60" : "text-[var(--cold)]/60"
+                      }`}>
+                        {entry.type === "work" ? "Trabajo" : "Educación"}
+                      </span>
+                    </div>
+                    <h4 className="text-lg font-bold text-[var(--fg)] group-hover:text-[var(--fg)] transition-colors">
+                      {entry.title}
+                    </h4>
+                    <p className="text-sm font-medium text-[var(--fg-muted)]">
+                      {entry.subtitle}
+                    </p>
+                    <p className="text-sm text-[var(--fg-muted)]/70 leading-relaxed">
+                      {entry.description}
+                    </p>
+                  </div>
+                </div>
               ))}
             </div>
-          </div>
-        </div>
 
-        {/* Columna derecha - Imagen */}
-        <div className="flex justify-center lg:justify-end order-2 lg:order-2">
-          <div className="group relative w-96 h-[32rem] lg:w-[30rem] lg:h-[40rem]">
-            {/* Glow effect */}
-            <div className="absolute -inset-4 bg-gradient-to-r from-slate-700/20 via-blue-500/20 to-cyan-500/20 rounded-2xl blur-2xl group-hover:blur-3xl transition-all duration-500" />
-            {/* Imagen con borde neón */}
-            <div className="relative w-full h-full rounded-2xl overflow-hidden border-2 border-white/20 group-hover:border-white/40 transition-all duration-500 shadow-[0_0_30px_rgba(51,65,85,0.4)] group-hover:shadow-[0_0_50px_rgba(51,65,85,0.6)]">
-              <div className="absolute inset-0 bg-gradient-to-br from-slate-700/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <img
-                src="/me2.jpg"
-                alt="Luis Cortés"
-                className="w-full h-full object-cover relative z-10 transform group-hover:scale-105 transition-transform duration-500"
-              />
+            {/* Skills — horizontal chips */}
+            <div>
+              <h3 className="text-xs font-semibold tracking-[0.2em] uppercase text-[var(--fg-muted)] mb-6">
+                Stack Técnico
+              </h3>
+              <div className="flex flex-wrap gap-2.5">
+                {SKILLS.map((skill) => (
+                  <span
+                    key={skill}
+                    className="px-4 py-2 text-sm font-medium text-[var(--fg)] bg-[var(--surface-1)] border border-[var(--border)] rounded-full hover:border-[var(--border-hover)] hover:bg-[var(--surface-2)] transition-all duration-300 cursor-default"
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Stats row */}
+            <div className="grid grid-cols-3 gap-6 pt-8 border-t border-[var(--border)]">
+              {[
+                { value: "5+", label: "Proyectos" },
+                { value: "1+", label: "Año exp." },
+                { value: "∞", label: "Curiosidad" },
+              ].map((stat) => (
+                <div key={stat.label} className="text-center sm:text-left">
+                  <div className="text-2xl sm:text-3xl font-bold text-[var(--fg)]">{stat.value}</div>
+                  <div className="text-xs text-[var(--fg-muted)] mt-1 tracking-wide">{stat.label}</div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -174,4 +162,3 @@ export function About() {
     </section>
   );
 }
-
