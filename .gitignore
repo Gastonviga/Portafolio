@@ -44,3 +44,5 @@ lint_output.txt
 # TypeScript cache
 *.tsbuildinfo
 next-env.d.ts
+
+.vercel
