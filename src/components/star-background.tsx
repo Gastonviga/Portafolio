@@ -84,7 +84,7 @@ export const StarBackground = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 -z-10 pointer-events-none"
+      className="fixed inset-0 -z-10 pointer-events-none data-[theme=light]:hidden"
       aria-hidden="true"
     />
   );

@@ -24,7 +24,7 @@ export function ProjectMuseumCard({ project, index }: ProjectMuseumCardProps) {
       className={`group grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] gap-6 lg:gap-10 border border-[var(--border)] ${borderClass} bg-[var(--surface-0)] p-4 sm:p-5 lg:p-6 rounded-[8px] transition-colors duration-500`}
     >
       <div className="space-y-4">
-        <div className="border border-[var(--border)] bg-[var(--bg)] p-2 rounded-[8px] shadow-[0_24px_70px_rgba(0,0,0,0.28)]">
+        <div className="border border-[var(--border)] bg-[var(--bg)] p-2 rounded-[8px] shadow-[var(--shadow)]">
           <div className="relative aspect-[16/10] overflow-hidden rounded-[6px]">
             <Image
               src={project.cover}
