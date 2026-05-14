@@ -99,25 +99,7 @@
     /* HEADER */
     .cv-header { padding-bottom: 2rem; border-bottom: 1.5px solid var(--ink); margin-bottom: 2.5rem; position: relative; }
 
-    /* PRINT OPTIMIZATIONS */
-    @media print {
-      body { background: white !important; cursor: default !important; }
-      .controls, #cursor-dot, #cursor-ring, .btn-zoom, .lang-switcher { display: none !important; }
-      .page { 
-        margin: 0 !important; 
-        padding: 1.5cm !important; 
-        box-shadow: none !important; 
-        max-width: 100% !important;
-        transform: none !important;
-      }
-      .page::before { display: none; }
-      .cv-header { margin-bottom: 1.5rem; padding-bottom: 1rem; }
-      .experience-item { margin-bottom: 1.5rem !important; page-break-inside: avoid; }
-      .profile-text { font-size: 11px !important; line-height: 1.4 !important; }
-      h2 { font-size: 24px !important; }
-      h3 { font-size: 16px !important; margin-bottom: 1rem !important; }
-      .cv-footer { margin-top: 1rem !important; font-size: 9px !important; }
-    }
+    /* PRINT OPTIMIZATIONS (Consolidado al final para mayor control) */
     .header-content { display: flex; justify-content: space-between; align-items: flex-end; gap: 2rem; }
     
     .profile-photo {
@@ -184,15 +166,79 @@
     /* FOOTER */
     .cv-footer { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--line); display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: .52rem; color: var(--ink-light); }
 
-    /* PRINT */
+    /* 🖨️ PRINT OPTIMIZED — One Page Policy */
     @media print {
-      @page { size: A4; margin: 1cm 1.5cm; }
-      body { background: white !important; cursor: default; }
-      .controls, #cursor-dot, #cursor-ring { display: none !important; }
-      .page { margin: 0; box-shadow: none; max-width: 100%; padding: 0; background: white; transform: none !important; }
-      .page::before { display: none; }
-      .perfil-text { text-align: left; }
-      .cv-section { opacity: 1 !important; transform: none !important; margin-bottom: 1.2rem; }
+      @page { 
+        size: A4; 
+        margin: 0; /* Mata los headers/footers del navegador (link, fecha, etc) */
+      }
+      
+      body { 
+        background: white !important; 
+        color: black !important;
+        cursor: default !important; 
+        margin: 0; 
+        padding: 0;
+      }
+
+      .page { 
+        margin: 0 !important; 
+        padding: 1.2cm 1.5cm !important; /* Margen interno para que el contenido no toque el borde físico */
+        box-shadow: none !important; 
+        max-width: 100% !important;
+        background: white !important;
+        transform: none !important;
+      }
+
+      /* Ocultar elementos web */
+      .controls, #cursor-dot, #cursor-ring, .page::before { display: none !important; }
+
+      /* Compactar Header */
+      .cv-header { margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1pt solid black; }
+      .name { font-size: 2.2rem !important; }
+      .contact-block { margin-top: 0.5rem !important; }
+      .contact-item { font-size: 0.65rem !important; }
+
+      /* Compactar Stats */
+      .stats-row { margin-bottom: 1.5rem !important; }
+      .stat-cell { padding: 0.5rem !important; border: 0.5pt solid #eee; }
+      .stat-number { font-size: 1.2rem !important; }
+
+      /* Secciones y Espaciado */
+      .cv-section { 
+        opacity: 1 !important; 
+        transform: none !important; 
+        margin-bottom: 1rem !important; 
+        page-break-inside: avoid; 
+      }
+      .section-header { margin-bottom: 0.8rem !important; }
+      
+      /* Textos */
+      .perfil-text { 
+        font-size: 0.8rem !important; 
+        line-height: 1.4 !important; 
+        text-align: left; 
+        padding-left: 1rem;
+      }
+
+      .entry { padding: 0.5rem 0 !important; page-break-inside: avoid; }
+      .entry-title { font-size: 0.85rem !important; }
+      .entry-bullets { margin-top: 0.2rem !important; gap: 0.1rem !important; }
+      .entry-bullets li { font-size: 0.75rem !important; line-height: 1.3 !important; }
+
+      .edu-item { margin-bottom: 0.6rem !important; }
+      .edu-inst { font-size: 0.8rem !important; }
+      .edu-degree { font-size: 0.7rem !important; }
+
+      .skill-group { margin-bottom: 0.5rem !important; }
+      .skill-tag { font-size: 0.6rem !important; padding: 0.1rem 0.3rem !important; }
+
+      .cv-footer { 
+        margin-top: 0.8rem !important; 
+        padding-top: 0.5rem !important; 
+        font-size: 0.55rem !important; 
+        border-top: 0.5pt solid #eee;
+      }
     }
 
     @media (max-width: 650px) {
