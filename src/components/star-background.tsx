@@ -48,10 +48,32 @@ export const StarBackground = () => {
 
     const animate = () => {
       time += 0.008;
-
-      ctx.fillStyle = "#050508";
+      
+      const isLight = document.documentElement.getAttribute("data-theme") === "light";
+      
+      // Background base
+      ctx.fillStyle = isLight ? "#f8f6f2" : "#050508";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+      // Grid for light mode
+      if (isLight) {
+        ctx.strokeStyle = "rgba(0, 0, 0, 0.03)";
+        ctx.lineWidth = 0.5;
+        const spacing = 40;
+        
+        ctx.beginPath();
+        for (let x = 0; x < canvas.width; x += spacing) {
+          ctx.moveTo(x, 0);
+          ctx.lineTo(x, canvas.height);
+        }
+        for (let y = 0; y < canvas.height; y += spacing) {
+          ctx.moveTo(0, y);
+          ctx.lineTo(canvas.width, y);
+        }
+        ctx.stroke();
+      }
+
+      // Particles
       for (const p of particles) {
         p.y += p.speed;
         if (p.y > canvas.height + 5) {
@@ -62,7 +84,10 @@ export const StarBackground = () => {
         const twinkle = Math.sin(time * 2 + p.phase) * 0.3 + 0.7;
         const opacity = p.baseOpacity * twinkle;
 
-        ctx.fillStyle = `rgba(232, 230, 227, ${opacity})`;
+        ctx.fillStyle = isLight 
+          ? `rgba(0, 0, 0, ${opacity * 0.4})` 
+          : `rgba(232, 230, 227, ${opacity})`;
+        
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx.fill();
@@ -84,7 +109,7 @@ export const StarBackground = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 -z-10 pointer-events-none data-[theme=light]:hidden"
+      className="fixed inset-0 -z-10 pointer-events-none"
       aria-hidden="true"
     />
   );

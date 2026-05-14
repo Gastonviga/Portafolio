@@ -38,10 +38,6 @@
   --shadow: 0 10px 40px rgba(0,0,0,0.06);
 }
 
-[data-theme='light'] canvas {
-  display: none !important;
-}
-
 /* === Base === */
 html {
   scroll-behavior: smooth;
