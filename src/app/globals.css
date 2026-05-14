@@ -12,6 +12,11 @@
   --cold: #7c6aef;
   --cold-soft: #a78bfa;
   --accent: #f0f0f0;
+  
+  /* Gradient tokens */
+  --grad-warm: linear-gradient(135deg, var(--warm), var(--warm-soft));
+  --grad-cold: linear-gradient(135deg, var(--cold), var(--cold-soft));
+  --grad-dual: linear-gradient(135deg, var(--warm), var(--cold-soft));
 
   /* Surface system */
   --surface-0: rgba(255, 255, 255, 0.02);
@@ -26,9 +31,9 @@
 }
 
 [data-theme='light'] {
-  --bg: #f8f6f2;
-  --fg: #050508;
-  --fg-muted: #5a5a52;
+  --bg: #fdfcfb;
+  --fg: #0a0a0c;
+  --fg-muted: #4a4a42;
   --surface-0: rgba(0, 0, 0, 0.02);
   --surface-1: rgba(0, 0, 0, 0.04);
   --surface-2: rgba(0, 0, 0, 0.07);
@@ -36,6 +41,11 @@
   --border-hover: rgba(0, 0, 0, 0.15);
   --accent: #1a1a2e;
   --shadow: 0 10px 40px rgba(0,0,0,0.06);
+  
+  /* More saturated gradients for light mode visibility */
+  --grad-warm: linear-gradient(135deg, #d97706, #b45309);
+  --grad-cold: linear-gradient(135deg, #4f46e5, #4338ca);
+  --grad-dual: linear-gradient(135deg, #d97706, #4f46e5);
 }
 
 /* === Base === */
@@ -82,21 +92,21 @@ body {
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-image: linear-gradient(135deg, var(--warm), var(--warm-soft));
+  background-image: var(--grad-warm);
 }
 
 .text-gradient-cold {
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-image: linear-gradient(135deg, var(--cold), var(--cold-soft));
+  background-image: var(--grad-cold);
 }
 
 .text-gradient-dual {
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-image: linear-gradient(135deg, var(--warm), var(--cold-soft));
+  background-image: var(--grad-dual);
 }
 
 /* === Grain overlay — ultra-light film texture === */

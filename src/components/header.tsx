@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "./language-context";
+import { useTheme } from "./theme-provider";
 
 interface NavItem {
   id: string;
@@ -21,18 +22,12 @@ const NAV_ITEMS: NavItem[] = [
 ];
 
 export function Header() {
-  const { language, setLanguage, t } = useLanguage();
+  const { t, language, setLanguage } = useLanguage();
+  const { theme, toggleTheme } = useTheme();
   const [activeSection, setActiveSection] = useState("inicio");
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [theme, setTheme] = useState<"dark" | "light">("dark");
   const pathname = usePathname();
-
-  const toggleTheme = () => {
-    const newTheme = theme === "dark" ? "light" : "dark";
-    setTheme(newTheme);
-    document.documentElement.setAttribute("data-theme", newTheme);
-  };
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
