@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gastón Viga — CV</title>
+  <title>Gastón Vigabriel — CV</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -25,181 +25,182 @@
       --font-mono: 'JetBrains Mono', monospace;
       --font-body: 'Inter', sans-serif;
       --page-max: 860px;
-      --page-pad: clamp(1.5rem, 5vw, 3.5rem);
+      --page-pad: clamp(1.2rem, 5vw, 3rem);
+      --zoom: 1;
     }
-
-    html { scroll-behavior: smooth; }
 
     body {
       font-family: var(--font-body);
       background: var(--off-white);
       color: var(--ink);
-      line-height: 1.6;
+      line-height: 1.5;
       cursor: none;
       overflow-x: hidden;
+      transition: background 0.3s ease, padding 0.5s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     /* CURSOR */
     #cursor-dot {
-      position: fixed; top: 0; left: 0;
-      width: 8px; height: 8px;
-      background: var(--ink); border-radius: 50%;
-      pointer-events: none; z-index: 9999;
-      transform: translate(-50%, -50%);
-      transition: width .2s, height .2s, background .2s;
-      will-change: left, top;
+      position: fixed; top: 0; left: 0; width: 8px; height: 8px;
+      background: var(--ink); border-radius: 50%; pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%); transition: width .2s, height .2s, background .2s;
     }
     #cursor-ring {
-      position: fixed; top: 0; left: 0;
-      width: 32px; height: 32px;
-      border: 1px solid var(--ink); border-radius: 50%;
-      pointer-events: none; z-index: 9998;
-      transform: translate(-50%, -50%);
-      transition: width .25s, height .25s, border-color .2s, opacity .2s;
+      position: fixed; top: 0; left: 0; width: 32px; height: 32px;
+      border: 1px solid var(--ink); border-radius: 50%; pointer-events: none; z-index: 9998;
+      transform: translate(-50%, -50%); transition: width .25s, height .25s, border-color .2s, opacity .2s;
       opacity: .5;
-      will-change: left, top;
     }
     body.cursor-hover #cursor-dot { width: 12px; height: 12px; background: var(--red); }
     body.cursor-hover #cursor-ring { width: 44px; height: 44px; border-color: var(--red); opacity: .3; }
 
-    /* SCROLL PROGRESS */
-    #scroll-progress {
-      position: fixed; top: 0; left: 0;
-      height: 2px; width: 0%;
-      background: var(--ink); z-index: 1000;
+    /* CONTROLS */
+    .controls {
+      position: fixed; top: 1.5rem; right: 1.5rem; z-index: 500;
+      display: flex; gap: .75rem;
     }
 
-    /* DOWNLOAD BTN */
-    #download-btn {
-      position: fixed; top: 1.5rem; right: 1.5rem; z-index: 500;
+    .btn {
       display: flex; align-items: center; gap: .5rem;
-      padding: .55rem 1.1rem;
+      padding: .55rem 1rem;
       background: var(--ink); color: var(--white);
-      font-family: var(--font-mono); font-size: .7rem;
+      font-family: var(--font-mono); font-size: .65rem;
       letter-spacing: .08em; text-transform: uppercase;
       border: none; cursor: none;
-      transition: background .2s, transform .15s;
+      transition: all .2s;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
-    #download-btn:hover { background: var(--red); transform: translateY(-1px); }
-    #download-btn svg { width: 12px; height: 12px; flex-shrink: 0; }
+    .btn:hover { background: var(--red); transform: translateY(-1px); }
+    .btn-secondary { background: var(--white); color: var(--ink); border: 1px solid var(--line-dark); }
+    .btn-secondary:hover { background: var(--off-white); border-color: var(--ink); color: var(--red); }
 
     /* PAGE */
-    .page { max-width: var(--page-max); margin: 0 auto; padding: 5rem var(--page-pad) 4rem; }
+    .page { 
+      max-width: calc(var(--page-max) * var(--zoom)); 
+      margin: 2rem auto; 
+      padding: var(--page-pad);
+      background: var(--paper);
+      box-shadow: 0 0 50px rgba(0,0,0,0.03);
+      position: relative;
+      transition: max-width 0.5s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+      transform-origin: top center;
+    }
+
+    body.zoomed { background: var(--ink); padding-bottom: 40vh; }
+    body.zoomed .page { transform: scale(1.3); box-shadow: 0 0 100px rgba(0,0,0,0.5); z-index: 1000; margin-bottom: 20vh; }
+
+    /* GRID DECORATION */
+    .page::before {
+      content: ""; position: absolute; inset: 0;
+      background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 40px 40px; opacity: 0.1; pointer-events: none;
+    }
 
     /* HEADER */
-    .cv-header { padding-bottom: 2.5rem; border-bottom: 1.5px solid var(--ink); margin-bottom: 3rem; }
-    .header-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 2rem; flex-wrap: wrap; }
-    .name-label { font-family: var(--font-mono); font-size: .65rem; letter-spacing: .15em; text-transform: uppercase; color: var(--ink-light); margin-bottom: .5rem; }
-    .name {
-      font-family: var(--font-display);
-      font-size: clamp(2.4rem, 6vw, 3.8rem);
-      font-weight: 700; line-height: 1;
-      letter-spacing: -.03em; min-height: 1.15em;
+    .cv-header { padding-bottom: 2rem; border-bottom: 1.5px solid var(--ink); margin-bottom: 2.5rem; position: relative; }
+
+    /* PRINT OPTIMIZATIONS */
+    @media print {
+      body { background: white !important; cursor: default !important; }
+      .controls, #cursor-dot, #cursor-ring, .btn-zoom, .lang-switcher { display: none !important; }
+      .page { 
+        margin: 0 !important; 
+        padding: 1.5cm !important; 
+        box-shadow: none !important; 
+        max-width: 100% !important;
+        transform: none !important;
+      }
+      .page::before { display: none; }
+      .cv-header { margin-bottom: 1.5rem; padding-bottom: 1rem; }
+      .experience-item { margin-bottom: 1.5rem !important; page-break-inside: avoid; }
+      .profile-text { font-size: 11px !important; line-height: 1.4 !important; }
+      h2 { font-size: 24px !important; }
+      h3 { font-size: 16px !important; margin-bottom: 1rem !important; }
+      .cv-footer { margin-top: 1rem !important; font-size: 9px !important; }
     }
-    .cursor-blink {
-      display: inline-block; width: 3px; height: .85em;
-      background: var(--red); margin-left: 2px;
-      vertical-align: middle;
-      animation: blink 1s step-end infinite;
+    .header-content { display: flex; justify-content: space-between; align-items: flex-end; gap: 2rem; }
+    
+    .profile-photo {
+      width: 100px; height: 100px; border-radius: 14px; overflow: hidden;
+      border: 1px solid var(--line-dark); flex-shrink: 0; background: var(--off-white);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.05);
     }
+    .profile-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+    .name-block { flex: 1; }
+    .name-label { font-family: var(--font-mono); font-size: .6rem; letter-spacing: .15em; text-transform: uppercase; color: var(--ink-light); margin-bottom: .4rem; }
+    .name { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; line-height: 1; letter-spacing: -.03em; }
+    .cursor-blink { display: inline-block; width: 3px; height: .85em; background: var(--red); margin-left: 2px; vertical-align: middle; animation: blink 1s step-end infinite; }
     @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-    .title { font-family: var(--font-display); font-size: clamp(.85rem, 2vw, 1rem); font-weight: 400; color: var(--ink-mid); margin-top: .6rem; }
-    .contact-block { display: flex; flex-direction: column; gap: .35rem; align-items: flex-end; padding-top: .25rem; }
-    .contact-item { font-family: var(--font-mono); font-size: .7rem; font-weight: 300; color: var(--ink-mid); display: flex; align-items: center; gap: .4rem; }
-    .contact-item a { color: inherit; text-decoration: none; transition: color .2s; }
+    .title { font-family: var(--font-display); font-size: .9rem; font-weight: 400; color: var(--ink-mid); margin-top: .4rem; }
+    
+    .contact-block { display: flex; flex-direction: column; gap: .25rem; align-items: flex-end; }
+    .contact-item { font-family: var(--font-mono); font-size: .6rem; color: var(--ink-mid); display: flex; align-items: center; gap: .4rem; }
+    .contact-item a { color: inherit; text-decoration: none; }
     .contact-item a:hover { color: var(--red); }
-    .contact-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--line-dark); flex-shrink: 0; }
 
     /* STATS */
-    .stats-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); margin-bottom: 3rem; }
-    .stat-cell { background: var(--paper); padding: 1.5rem 1.25rem; text-align: center; }
-    .stat-number { font-family: var(--font-display); font-size: clamp(2rem,5vw,2.8rem); font-weight: 700; line-height: 1; letter-spacing: -.04em; }
-    .stat-suffix { font-family: var(--font-mono); font-size: 1rem; color: var(--red); }
-    .stat-label { font-family: var(--font-mono); font-size: .62rem; color: var(--ink-light); letter-spacing: .1em; text-transform: uppercase; margin-top: .4rem; }
+    .stats-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); margin-bottom: 2.5rem; }
+    .stat-cell { background: var(--white); padding: .85rem .5rem; text-align: center; }
+    .stat-number { font-family: var(--font-display); font-size: 1.6rem; font-weight: 700; line-height: 1; }
+    .stat-suffix { font-family: var(--font-mono); font-size: .8rem; color: var(--red); }
+    .stat-label { font-family: var(--font-mono); font-size: .55rem; color: var(--ink-light); letter-spacing: .1em; text-transform: uppercase; margin-top: .2rem; }
 
     /* SECTIONS */
-    .cv-section { margin-bottom: 3rem; opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+    .cv-section { margin-bottom: 2rem; opacity: 0; transform: translateY(15px); transition: opacity .5s ease, transform .5s ease; }
     .cv-section.visible { opacity: 1; transform: translateY(0); }
-    .section-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.75rem; }
-    .section-label { font-family: var(--font-mono); font-size: .62rem; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-light); white-space: nowrap; }
+    .section-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.2rem; }
+    .section-label { font-family: var(--font-mono); font-size: .58rem; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; color: var(--ink-light); }
     .section-line { flex: 1; height: 1px; background: var(--line); }
-    .section-num { font-family: var(--font-mono); font-size: .6rem; color: var(--line-dark); }
 
     /* PERFIL */
-    .perfil-text { font-size: .92rem; line-height: 1.75; color: var(--ink-mid); max-width: 680px; border-left: 2px solid var(--line-dark); padding-left: 1.25rem; }
+    .perfil-text { font-size: .85rem; line-height: 1.6; color: var(--ink-mid); border-left: 2px solid var(--ink); padding-left: 1.2rem; text-align: justify; }
 
     /* ENTRIES */
-    .entry { padding: 1.5rem 0; border-bottom: 1px solid var(--line); }
-    .entry:first-child { border-top: 1px solid var(--line); }
-    .entry-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap; margin-bottom: .5rem; }
-    .entry-title { font-family: var(--font-display); font-size: .95rem; font-weight: 600; letter-spacing: -.01em; }
-    .entry-company { font-family: var(--font-mono); font-size: .72rem; color: var(--ink-mid); margin-top: .15rem; }
-    .entry-date { font-family: var(--font-mono); font-size: .65rem; color: var(--ink-light); letter-spacing: .05em; white-space: nowrap; padding-top: .1rem; }
-    .badge { display: inline-block; background: var(--ink); color: var(--white); font-size: .58rem; padding: .1rem .45rem; letter-spacing: .1em; text-transform: uppercase; }
-    .entry-bullets { list-style: none; margin-top: .6rem; display: flex; flex-direction: column; gap: .35rem; }
-    .entry-bullets li { font-size: .84rem; color: var(--ink-mid); line-height: 1.6; padding-left: 1.1rem; position: relative; }
-    .entry-bullets li::before { content: '—'; position: absolute; left: 0; color: var(--line-dark); font-size: .75rem; }
+    .entry { padding: 1rem 0; border-bottom: 1px solid var(--line); }
+    .entry:first-of-type { border-top: 1px solid var(--line); }
+    .entry-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: .3rem; }
+    .entry-title { font-family: var(--font-display); font-size: .9rem; font-weight: 700; }
+    .entry-company { font-family: var(--font-mono); font-size: .65rem; color: var(--ink-mid); margin-top: .1rem; }
+    .entry-date { font-family: var(--font-mono); font-size: .6rem; color: var(--ink-light); text-transform: uppercase; }
+    .badge { background: var(--ink); color: var(--white); font-size: .52rem; padding: .1rem .4rem; letter-spacing: .05em; }
+    .entry-bullets { list-style: none; margin-top: .4rem; display: flex; flex-direction: column; gap: .2rem; }
+    .entry-bullets li { font-size: .78rem; color: var(--ink-mid); padding-left: .9rem; position: relative; }
+    .entry-bullets li::before { content: '→'; position: absolute; left: 0; color: var(--ink-light); font-size: .7rem; }
 
-    /* EDUCACIÓN */
-    .edu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); }
-    .edu-card { background: var(--paper); padding: 1.25rem 1.4rem; transition: background .2s; }
-    .edu-card:hover { background: var(--white); }
-    .edu-institution { font-family: var(--font-display); font-size: .88rem; font-weight: 600; margin-bottom: .25rem; }
-    .edu-degree { font-size: .78rem; color: var(--ink-mid); margin-bottom: .4rem; line-height: 1.4; }
-    .edu-date { font-family: var(--font-mono); font-size: .62rem; color: var(--ink-light); }
-    .edu-note { font-size: .75rem; color: var(--ink-light); margin-top: .3rem; font-style: italic; }
+    /* GRID LAYOUT FOR WEB (Expansive) */
+    .grid-container { display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; }
 
-    /* SKILLS */
-    .skills-grid { display: flex; flex-direction: column; gap: 1.25rem; }
-    .skill-group-label { font-family: var(--font-mono); font-size: .62rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-light); margin-bottom: .6rem; }
-    .skill-tags { display: flex; flex-wrap: wrap; gap: .4rem; }
-    .skill-tag {
-      font-family: var(--font-mono); font-size: .7rem; color: var(--ink-mid);
-      border: 1px solid var(--line-dark); padding: .3rem .7rem;
-      transition: border-color .2s, color .2s, background .2s; cursor: none;
-    }
-    .skill-tag:hover { border-color: var(--ink); color: var(--ink); background: var(--white); }
+    .edu-item { border-left: 1.5px solid var(--line); padding-left: 1rem; margin-bottom: 1rem; }
+    .edu-inst { font-family: var(--font-display); font-size: .85rem; font-weight: 700; }
+    .edu-degree { font-size: .72rem; color: var(--ink-mid); margin: .1rem 0; }
+    .edu-date { font-family: var(--font-mono); font-size: .58rem; color: var(--ink-light); }
 
-    /* IDIOMAS */
-    .lang-row { display: flex; gap: 2.5rem; flex-wrap: wrap; }
-    .lang-item { display: flex; flex-direction: column; gap: .5rem; }
-    .lang-name { font-family: var(--font-display); font-size: .9rem; font-weight: 600; }
-    .lang-level { font-family: var(--font-mono); font-size: .65rem; color: var(--ink-light); letter-spacing: .06em; }
-    .lang-bar { width: 120px; height: 2px; background: var(--line); position: relative; overflow: hidden; }
-    .lang-bar-fill { position: absolute; top: 0; left: 0; height: 100%; background: var(--ink); width: 0%; transition: width 1.1s cubic-bezier(.4,0,.2,1) .2s; }
-    .lang-bar-fill.animated { width: var(--fill); }
+    .skill-group { margin-bottom: .8rem; }
+    .skill-group-label { font-family: var(--font-mono); font-size: .55rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-light); margin-bottom: .3rem; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: .3rem; }
+    .skill-tag { font-family: var(--font-mono); font-size: .62rem; color: var(--ink-mid); border: 1px solid var(--line); padding: .2rem .4rem; background: var(--white); }
 
     /* FOOTER */
-    .cv-footer { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: .5rem; }
-    .footer-note { font-family: var(--font-mono); font-size: .6rem; color: var(--ink-light); letter-spacing: .08em; }
-    .footer-mark { font-family: var(--font-mono); font-size: .6rem; color: var(--line-dark); }
-
-    /* CORNER DECORATION */
-    .corner-mark { position: fixed; bottom: 1.5rem; left: 1.5rem; font-family: var(--font-mono); font-size: .58rem; color: var(--line-dark); letter-spacing: .1em; writing-mode: vertical-rl; transform: rotate(180deg); pointer-events: none; user-select: none; }
+    .cv-footer { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--line); display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: .52rem; color: var(--ink-light); }
 
     /* PRINT */
     @media print {
-      #cursor-dot, #cursor-ring, #scroll-progress, #download-btn, .corner-mark { display: none !important; }
-      body { background: white; color: black; cursor: default; }
-      .page { max-width: 100%; padding: 1.5cm 2cm; margin: 0; }
-      .cv-section { opacity: 1 !important; transform: none !important; }
-      .cv-header { border-bottom: 1.5pt solid black; }
-      .section-line { background: #ccc; }
-      .entry { border-bottom: .5pt solid #ddd; }
-      .entry:first-child { border-top: .5pt solid #ddd; }
-      .edu-grid, .stats-row { background: #ddd; }
-      .edu-card, .stat-cell { background: white; }
-      .badge { background: black; color: white; }
-      .lang-bar-fill { width: var(--fill) !important; }
-      @page { size: A4; margin: 1.5cm 2cm; }
+      @page { size: A4; margin: 1cm 1.5cm; }
+      body { background: white !important; cursor: default; }
+      .controls, #cursor-dot, #cursor-ring { display: none !important; }
+      .page { margin: 0; box-shadow: none; max-width: 100%; padding: 0; background: white; transform: none !important; }
+      .page::before { display: none; }
+      .perfil-text { text-align: left; }
+      .cv-section { opacity: 1 !important; transform: none !important; margin-bottom: 1.2rem; }
     }
 
-    @media (max-width: 600px) {
-      .header-top { flex-direction: column; }
-      .contact-block { align-items: flex-start; }
-      .stats-row { grid-template-columns: 1fr; }
-      #download-btn { top: 1rem; right: 1rem; font-size: .65rem; padding: .45rem .9rem; }
-      .corner-mark { display: none; }
+    @media (max-width: 650px) {
+      .header-content { flex-direction: column; align-items: center; text-align: center; }
+      .contact-block { align-items: center; margin-top: 1rem; }
+      .grid-container { grid-template-columns: 1fr; }
+      .controls { top: auto; bottom: 1.5rem; right: 50%; transform: translateX(50%); width: calc(100% - 3rem); justify-content: center; }
+      #zoom-btn { display: none !important; }
     }
   </style>
 </head>
@@ -207,377 +208,261 @@
 
   <div id="cursor-dot"></div>
   <div id="cursor-ring"></div>
-  <div id="scroll-progress"></div>
 
-  <button id="download-btn" onclick="window.print()" aria-label="Descargar CV en PDF">
-    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M8 2v8M5 7l3 3 3-3M3 12h10"/>
-    </svg>
-    Descargar PDF
-  </button>
+  <div class="controls">
+    <button class="btn btn-secondary" id="lang-btn" aria-label="Cambiar idioma">EN</button>
+    <button class="btn btn-secondary" id="zoom-btn" aria-label="Zoom al contenido">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/>
+      </svg>
+      Zoom
+    </button>
+    <button class="btn" onclick="window.print()">
+      <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M8 2v8M5 7l3 3 3-3M3 12h10"/>
+      </svg>
+      PDF
+    </button>
+  </div>
 
-  <div class="corner-mark">GV · CV · 2026</div>
-
-  <div class="page">
-
-    <!-- HEADER -->
+  <div class="page" id="cv-page">
     <header class="cv-header">
-      <div class="header-top">
+      <div class="header-content">
         <div class="name-block">
-          <p class="name-label">Curriculum Vitae</p>
+          <p class="name-label" id="txt-cv-label">Curriculum Vitae — 2026</p>
           <h1 class="name" id="typed-name"><span class="cursor-blink"></span></h1>
-          <p class="title">Desarrollador Web &amp; Estudiante de Ciencia de Datos</p>
+          <p class="title" id="txt-hero-title">Full Stack Developer &amp; AI Solutions</p>
+          <div class="contact-block" style="align-items: flex-start; margin-top: 1rem;">
+            <div class="contact-item"><span id="txt-location">Parque Chacabuco, CABA</span></div>
+            <div class="contact-item"><a href="tel:+541171488045">+54 11 7148-8045</a></div>
+            <div class="contact-item"><a href="mailto:gastonvigabriel7@gmail.com">gastonvigabriel7@gmail.com</a></div>
+          </div>
         </div>
-        <div class="contact-block">
-          <div class="contact-item"><span class="contact-dot"></span>Parque Chacabuco, CABA</div>
-          <div class="contact-item"><span class="contact-dot"></span><a href="tel:+541171488045">(+54) 11 7148-8045</a></div>
-          <div class="contact-item"><span class="contact-dot"></span><a href="mailto:gastonvigabriel7@gmail.com">gastonvigabriel7@gmail.com</a></div>
+        <div class="profile-photo">
+          <img src="/profile-cv.png" alt="Gastón Vigabriel">
         </div>
       </div>
     </header>
 
-    <!-- STATS -->
-    <div class="stats-row" aria-hidden="true">
+    <div class="stats-row">
       <div class="stat-cell">
-        <div class="stat-number"><span class="count-up" data-target="3">0</span><span class="stat-suffix">+</span></div>
-        <div class="stat-label">Años de experiencia</div>
+        <div class="stat-number">3<span class="stat-suffix">+</span></div>
+        <div class="stat-label" id="txt-stat-1">Años de Exp.</div>
       </div>
       <div class="stat-cell">
-        <div class="stat-number"><span class="count-up" data-target="6">0</span><span class="stat-suffix">+</span></div>
-        <div class="stat-label">Proyectos entregados</div>
+        <div class="stat-number">6<span class="stat-suffix">+</span></div>
+        <div class="stat-label" id="txt-stat-2">Proyectos</div>
       </div>
       <div class="stat-cell">
-        <div class="stat-number"><span class="count-up" data-target="12">0</span><span class="stat-suffix">+</span></div>
-        <div class="stat-label">Tecnologías dominadas</div>
+        <div class="stat-number">12<span class="stat-suffix">+</span></div>
+        <div class="stat-label" id="txt-stat-3">Tecnologías</div>
       </div>
     </div>
 
-    <!-- PERFIL -->
     <section class="cv-section">
       <div class="section-header">
-        <span class="section-label">Perfil Profesional</span>
+        <span class="section-label" id="txt-sec-1">Perfil Profesional</span>
         <div class="section-line"></div>
-        <span class="section-num">01</span>
       </div>
-      <p class="perfil-text">
-        Desarrollador Web y estudiante de Ciencia de Datos con un fuerte enfoque en la innovación, el rendimiento y la integración de Inteligencia Artificial. Fundador de <strong>Viga Studio</strong>, donde diseño y desarrollo soluciones web modernas, fluidas y no genéricas (e-commerce, sitios institucionales). Especializado en optimizar el flujo de trabajo mediante <em>vibe coding</em> (Windsurf, Trae) y con experiencia en la creación de arquitecturas complejas, como sistemas propietarios VMS (TitanNVR). Orientado a crear productos tecnológicos eficientes que destaquen por su diseño y experiencia de usuario.
+      <p class="perfil-text" id="txt-profile">
+        Estratega tecnológico especializado en el desarrollo de soluciones web de alto impacto y el análisis de datos. Como fundador de <strong>Viga Studio</strong>, lidero arquitecturas digitales que fusionan estética premium con rendimiento crítico. Mi enfoque se centra en el **Desarrollo Aumentado por IA (Vibe Coding)**: utilizo herramientas como Codex y Claude no como sustitutos, sino como amplificadores de productividad para iterar con velocidad quirúrgica sin comprometer la solidez del código. Con formación en **Ciencia de Datos (UBA)**, aporto una mirada analítica para transformar la complejidad técnica en productos escalables y eficientes.
       </p>
     </section>
 
-    <!-- EXPERIENCIA -->
     <section class="cv-section">
       <div class="section-header">
-        <span class="section-label">Experiencia</span>
+        <span class="section-label" id="txt-sec-2">Experiencia Seleccionada</span>
         <div class="section-line"></div>
-        <span class="section-num">02</span>
       </div>
 
-      <div class="entry">
-        <div class="entry-header">
-          <div>
-            <div class="entry-title">Fundador &amp; Desarrollador Web</div>
-            <div class="entry-company">Viga Studio</div>
-          </div>
-          <div class="entry-date"><span class="badge">Actualidad</span></div>
-        </div>
-        <ul class="entry-bullets">
-          <li>Dirección y desarrollo de una agencia freelance enfocada en la creación de sitios web modernos e innovadores.</li>
-          <li>Diseño y despliegue de plataformas e-commerce (venta de mochilas) y sitios institucionales corporativos (estudio de abogados, empresa constructora).</li>
-          <li>Implementación de interfaces de alto rendimiento, priorizando la fluidez y la experiencia de usuario.</li>
-        </ul>
-      </div>
-
-      <div class="entry">
-        <div class="entry-header">
-          <div>
-            <div class="entry-title">Desarrollador de Software</div>
-            <div class="entry-company">Proyecto Independiente — TitanNVR</div>
-          </div>
-          <div class="entry-date"><span class="badge">Actualidad</span></div>
-        </div>
-        <ul class="entry-bullets">
-          <li>Desarrollo de "TitanNVR", un sistema propietario de gestión de video (Video Management System).</li>
-          <li>Diseño de la arquitectura del software, enfocando el desarrollo en la estabilidad y el procesamiento de datos.</li>
-        </ul>
-      </div>
-
-      <div class="entry">
-        <div class="entry-header">
-          <div>
-            <div class="entry-title">Programador &amp; Desarrollador Web</div>
-            <div class="entry-company">Empresa Familiar</div>
-          </div>
-          <div class="entry-date">Ene 2024 – Jul 2024</div>
-        </div>
-        <ul class="entry-bullets">
-          <li>Desarrollo de sitio web institucional utilizando HTML, CSS, JS y MySQL.</li>
-          <li>Gestión y optimización de base de datos de clientes y productos.</li>
-        </ul>
-      </div>
-
-      <div class="entry">
-        <div class="entry-header">
-          <div>
-            <div class="entry-title">Programador &amp; Administrador de Sistemas</div>
-            <div class="entry-company">Local de Librería</div>
-          </div>
-          <div class="entry-date">Abr 2023 – Sep 2023</div>
-        </div>
-        <ul class="entry-bullets">
-          <li>Administración y mantenimiento de sistemas internos integrados con MySQL.</li>
-          <li>Soporte técnico y resolución ágil de problemas informáticos.</li>
-        </ul>
-      </div>
-
-      <div class="entry">
-        <div class="entry-header">
-          <div>
-            <div class="entry-title">Personal de Eventos</div>
-            <div class="entry-company">Eventos varios</div>
-          </div>
-          <div class="entry-date">Experiencia adicional</div>
-        </div>
-        <ul class="entry-bullets">
-          <li>Atención al cliente y trabajo en equipo en entornos dinámicos y de alta presión.</li>
-        </ul>
+      <div id="experience-list">
+        <!-- JS Dynamic -->
       </div>
     </section>
 
-    <!-- FORMACIÓN -->
-    <section class="cv-section">
-      <div class="section-header">
-        <span class="section-label">Formación Académica</span>
-        <div class="section-line"></div>
-        <span class="section-num">03</span>
-      </div>
-      <div class="edu-grid">
-        <div class="edu-card">
-          <div class="edu-institution">Universidad de Buenos Aires</div>
-          <div class="edu-degree">CBC — Lic. en Ciencia de Datos</div>
-          <div class="edu-date">Actualidad</div>
-          <div class="edu-note">Análisis de datos, matemática e IA.</div>
+    <div class="grid-container">
+      <section class="cv-section">
+        <div class="section-header">
+          <span class="section-label" id="txt-sec-3">Educación</span>
+          <div class="section-line"></div>
         </div>
-        <div class="edu-card">
-          <div class="edu-institution">ET N°1 Otto Krause</div>
-          <div class="edu-degree">Técnico en Computación</div>
-          <div class="edu-date">2018 — 2023</div>
-          <div class="edu-note">Programación, sistemas operativos, redes y hardware.</div>
+        <div class="edu-list" id="education-list">
+          <!-- JS Dynamic -->
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- TECNOLOGÍAS -->
-    <section class="cv-section">
-      <div class="section-header">
-        <span class="section-label">Tecnologías &amp; Habilidades</span>
-        <div class="section-line"></div>
-        <span class="section-num">04</span>
-      </div>
-      <div class="skills-grid">
-        <div class="skill-group">
-          <div class="skill-group-label">Desarrollo asistido &amp; Metodologías</div>
-          <div class="skill-tags">
-            <span class="skill-tag">Vibe Coding</span>
-            <span class="skill-tag">Windsurf IDE</span>
-            <span class="skill-tag">Claude</span>
-            <span class="skill-tag">IA en flujos de desarrollo</span>
-          </div>
+      <section class="cv-section">
+        <div class="section-header">
+          <span class="section-label" id="txt-sec-4">Tecnologías</span>
+          <div class="section-line"></div>
         </div>
-        <div class="skill-group">
-          <div class="skill-group-label">Frontend &amp; UI/UX</div>
-          <div class="skill-tags">
-            <span class="skill-tag">HTML5</span>
-            <span class="skill-tag">CSS3</span>
-            <span class="skill-tag">React</span>
-            <span class="skill-tag">Next.js</span>
-            <span class="skill-tag">TypeScript</span>
-            <span class="skill-tag">Tailwind CSS</span>
-            <span class="skill-tag">Git</span>
-            <span class="skill-tag">SEO</span>
-          </div>
+        <div class="skills-col" id="skills-list">
+          <!-- JS Dynamic -->
         </div>
-        <div class="skill-group">
-          <div class="skill-group-label">Backend &amp; Lenguajes</div>
-          <div class="skill-tags">
-            <span class="skill-tag">C / C++</span>
-            <span class="skill-tag">Python</span>
-            <span class="skill-tag">PostgreSQL</span>
-            <span class="skill-tag">Docker</span>
-            <span class="skill-tag">APIs</span>
-            <span class="skill-tag">AWS</span>
-            <span class="skill-tag">Arquitectura de sistemas</span>
-          </div>
-        </div>
-        <div class="skill-group">
-          <div class="skill-group-label">Habilidades Blandas</div>
-          <div class="skill-tags">
-            <span class="skill-tag">Proactividad</span>
-            <span class="skill-tag">Innovación</span>
-            <span class="skill-tag">Pensamiento Crítico</span>
-            <span class="skill-tag">Comunicación Efectiva</span>
-            <span class="skill-tag">Visión de Negocio</span>
-          </div>
-        </div>
-      </div>
-    </section>
+      </section>
+    </div>
 
-    <!-- IDIOMAS -->
-    <section class="cv-section">
-      <div class="section-header">
-        <span class="section-label">Idiomas</span>
-        <div class="section-line"></div>
-        <span class="section-num">05</span>
-      </div>
-      <div class="lang-row">
-        <div class="lang-item">
-          <div class="lang-name">Español</div>
-          <div class="lang-level">Nativo</div>
-          <div class="lang-bar"><div class="lang-bar-fill" style="--fill: 100%"></div></div>
-        </div>
-        <div class="lang-item">
-          <div class="lang-name">Inglés</div>
-          <div class="lang-level">B2 — Lectura técnica y documentación</div>
-          <div class="lang-bar"><div class="lang-bar-fill" style="--fill: 55%"></div></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- FOOTER -->
     <footer class="cv-footer">
-      <span class="footer-note">Gastón Viga · gastonvigabriel7@gmail.com · 2026</span>
-      <span class="footer-mark">Viga Studio</span>
+      <span id="txt-footer-1">Gastón Vigabriel · CV 2026</span>
+      <span id="txt-footer-2">Viga Studio · Digital Excellence</span>
     </footer>
-
-  </div><!-- /page -->
+  </div>
 
   <script>
-    // ─── LENIS SMOOTH SCROLL ──────────────────────────────────────────
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-    });
-    function rafLoop(time) { lenis.raf(time); requestAnimationFrame(rafLoop); }
-    requestAnimationFrame(rafLoop);
+    const cvData = {
+      es: {
+        cvLabel: "Curriculum Vitae — 2026",
+        heroTitle: "Full Stack Developer & AI Solutions",
+        location: "Parque Chacabuco, CABA",
+        stats: ["Años Experiencia", "Proyectos", "Tecnologías"],
+        sections: ["Perfil Profesional", "Experiencia Seleccionada", "Educación", "Tecnologías"],
+        profile: "Estratega tecnológico especializado en el desarrollo de arquitecturas web de alto impacto y la integración de inteligencia artificial. Como fundador de <strong>Viga Studio</strong>, diseño ecosistemas digitales que combinan estética de alto nivel con rendimiento crítico. Mi enfoque se basa en el <strong>Desarrollo Aumentado por IA (Vibe Coding)</strong>: utilizo modelos avanzados para acelerar la iteración técnica sin sacrificar la robustez del código. Mi formación en <strong>Ciencia de Datos (UBA)</strong> me permite transformar la complejidad de los datos en productos escalables, eficientes y centrados en el usuario.",
+        experience: [
+          { title: "Founder & Lead Web Developer", company: "Viga Studio · Freelance Agency", date: "Actualidad", bullets: ["Dirección técnica de soluciones premium y sistemas complejos como AREACAM.", "Integración de módulos de facturación electrónica con ARCA (AFIP), optimizando procesos fiscales mediante microservicios."] },
+          { title: "Software Architect — AREACAM", company: "Area 54 SA · Smart Monitoring", date: "Actualidad", bullets: ["Diseño y liderazgo técnico de un Video Management System (VMS) robusto para flujos de datos en tiempo real.", "Implementación de arquitecturas escalables enfocadas en la estabilidad del servidor y baja latencia."] },
+          { title: "Full Stack & Mobile Developer", company: "App Turnos Pro", date: "2024", bullets: ["Desarrollo de ecosistema multiplataforma con Spring Boot y React Native para gestión masiva de citas.", "Arquitectura de API REST de alta disponibilidad con PostgreSQL."] }
+        ],
+        education: [
+          { inst: "Universidad de Buenos Aires", degree: "Ciencia de Datos · CBC", date: "En curso · 2025" },
+          { inst: "ET N°1 Otto Krause", degree: "Técnico en Computación", date: "Graduado · 2023" }
+        ],
+        skills: [
+          { label: "Core Stack", tags: ["React", "Next.js", "TypeScript", "Node.js", "Python"] },
+          { label: "Tools & Complementary", tags: ["Docker", "C++", "SQL", "Tailwind CSS", "IA-Driven Dev"] },
+          { label: "Idiomas", tags: ["Español (Nativo)", "Inglés (B2)"] }
+        ],
+        footer: ["Gastón Vigabriel · CV 2026", "Viga Studio · Digital Excellence"],
+        langBtn: "EN",
+        zoomBtn: "Zoom"
+      },
+      en: {
+        cvLabel: "Curriculum Vitae — 2026",
+        heroTitle: "Full Stack Developer & AI Solutions",
+        location: "Buenos Aires, Argentina",
+        stats: ["Years Experience", "Projects", "Technologies"],
+        sections: ["Professional Profile", "Selected Experience", "Education", "Technologies"],
+        profile: "Technology strategist specialized in developing high-impact web architectures and artificial intelligence integration. As the founder of <strong>Viga Studio</strong>, I design digital ecosystems that combine high-level aesthetics with critical performance. My approach is based on <strong>AI-Augmented Development (Vibe Coding)</strong>: I use advanced models to accelerate technical iteration without sacrificing code robustness. My background in <strong>Data Science (UBA)</strong> allows me to transform data complexity into scalable, efficient, and user-centric products.",
+        experience: [
+          { title: "Founder & Lead Web Developer", company: "Viga Studio · Freelance Agency", date: "Present", bullets: ["Technical direction of premium solutions and complex systems like AREACAM.", "Integration of electronic billing modules with ARCA (AFIP), optimising fiscal processes through microservices."] },
+          { title: "Software Architect — AREACAM", company: "Area 54 SA · Smart Monitoring", date: "Present", bullets: ["Technical design and leadership of a robust Video Management System (VMS) for real-time data streams.", "Implementation of scalable architectures focused on server stability and low latency."] },
+          { title: "Full Stack & Mobile Developer", company: "App Turnos Pro", date: "2024", bullets: ["Development of a multi-platform ecosystem with Spring Boot and React Native for mass appointment management.", "High-availability REST API architecture with PostgreSQL."] }
+        ],
+        education: [
+          { inst: "University of Buenos Aires", degree: "Data Science · CBC", date: "In progress · 2025" },
+          { inst: "ET N°1 Otto Krause", degree: "Computer Technician", date: "Graduated · 2023" }
+        ],
+        skills: [
+          { label: "Core Stack", tags: ["React", "Next.js", "TypeScript", "Node.js", "Python"] },
+          { label: "Tools & Complementary", tags: ["Docker", "C++", "SQL", "Tailwind CSS", "IA-Driven Dev"] },
+          { label: "Languages", tags: ["Spanish (Native)", "English (B2)"] }
+        ],
+        footer: ["Gastón Vigabriel · CV 2026", "Viga Studio · Digital Excellence"],
+        langBtn: "ES",
+        zoomBtn: "Zoom"
+      }
+    };
 
-    // ─── CURSOR CUSTOM ────────────────────────────────────────────────
-    const dot  = document.getElementById('cursor-dot');
+    let currentLang = 'es';
+
+    function updateContent() {
+      const d = cvData[currentLang];
+      document.getElementById('txt-cv-label').textContent = d.cvLabel;
+      document.getElementById('txt-hero-title').textContent = d.heroTitle;
+      document.getElementById('txt-location').textContent = d.location;
+      document.getElementById('txt-stat-1').textContent = d.stats[0];
+      document.getElementById('txt-stat-2').textContent = d.stats[1];
+      document.getElementById('txt-stat-3').textContent = d.stats[2];
+      document.getElementById('txt-sec-1').textContent = d.sections[0];
+      document.getElementById('txt-sec-2').textContent = d.sections[1];
+      document.getElementById('txt-sec-3').textContent = d.sections[2];
+      document.getElementById('txt-sec-4').textContent = d.sections[3];
+      document.getElementById('txt-profile').innerHTML = d.profile;
+      document.getElementById('txt-footer-1').textContent = d.footer[0];
+      document.getElementById('txt-footer-2').textContent = d.footer[1];
+      document.getElementById('lang-btn').textContent = d.langBtn;
+
+      // Lists
+      const expList = document.getElementById('experience-list');
+      expList.innerHTML = d.experience.map(e => `
+        <div class="entry">
+          <div class="entry-header">
+            <div class="entry-title">${e.title}</div>
+            <div class="entry-date"><span class="badge">${e.date}</span></div>
+          </div>
+          <div class="entry-company">${e.company}</div>
+          <ul class="entry-bullets">
+            ${e.bullets.map(b => `<li>${b}</li>`).join('')}
+          </ul>
+        </div>
+      `).join('');
+
+      const eduList = document.getElementById('education-list');
+      eduList.innerHTML = d.education.map(e => `
+        <div class="edu-item">
+          <div class="edu-inst">${e.inst}</div>
+          <div class="edu-degree">${e.degree}</div>
+          <div class="edu-date">${e.date}</div>
+        </div>
+      `).join('');
+
+      const skillList = document.getElementById('skills-list');
+      skillList.innerHTML = d.skills.map(s => `
+        <div class="skill-group">
+          <p class="skill-group-label">${s.label}</p>
+          <div class="skill-tags">
+            ${s.tags.map(t => `<span class="skill-tag">${t}</span>`).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    updateContent();
+
+    // Controls
+    document.getElementById('lang-btn').onclick = () => {
+      currentLang = currentLang === 'es' ? 'en' : 'es';
+      updateContent();
+    };
+
+    document.getElementById('zoom-btn').onclick = () => {
+      document.body.classList.toggle('zoomed');
+    };
+
+    // Lenis
+    const lenis = new Lenis();
+    function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+    requestAnimationFrame(raf);
+
+    // Cursor
+    const dot = document.getElementById('cursor-dot');
     const ring = document.getElementById('cursor-ring');
     let mx = 0, my = 0, rx = 0, ry = 0;
-
     document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-
-    (function animateCursor() {
-      rx += (mx - rx) * 0.13;
-      ry += (my - ry) * 0.13;
-      dot.style.left  = mx + 'px';
-      dot.style.top   = my + 'px';
-      ring.style.left = rx + 'px';
-      ring.style.top  = ry + 'px';
-      requestAnimationFrame(animateCursor);
+    (function anim(){
+      rx += (mx-rx)*0.15; ry += (my-ry)*0.15;
+      dot.style.transform = `translate(${mx}px, ${my}px)`;
+      ring.style.transform = `translate(${rx}px, ${ry}px)`;
+      requestAnimationFrame(anim);
     })();
 
-    const hoverTargets = document.querySelectorAll('a, button, .skill-tag, .edu-card, .stat-cell, .entry-title');
-    hoverTargets.forEach(el => {
-      el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
-      el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
-    });
+    // Reveal
+    const obs = new IntersectionObserver(ents => ents.forEach(e => {
+      if(e.isIntersecting) e.target.classList.add('visible');
+    }), { threshold: 0.1 });
+    function refreshReveal() { document.querySelectorAll('.cv-section').forEach(s => obs.observe(s)); }
+    refreshReveal();
 
-    // ─── SCROLL PROGRESS BAR ─────────────────────────────────────────
-    const progressBar = document.getElementById('scroll-progress');
-    window.addEventListener('scroll', () => {
-      const scrolled = window.scrollY;
-      const total    = document.documentElement.scrollHeight - window.innerHeight;
-      progressBar.style.width = (total > 0 ? (scrolled / total) * 100 : 0) + '%';
-    }, { passive: true });
-
-    // ─── TYPING EFFECT ────────────────────────────────────────────────
-    const nameEl   = document.getElementById('typed-name');
-    const fullName = 'Gastón Vigabriel';
-    let charIndex  = 0;
-
-    function typeChar() {
-      if (charIndex <= fullName.length) {
-        nameEl.innerHTML = fullName.slice(0, charIndex) + '<span class="cursor-blink"></span>';
-        charIndex++;
-        const delay = charIndex === 1 ? 500 : 75 + Math.random() * 45;
-        setTimeout(typeChar, delay);
+    // Typing
+    const nameEl = document.getElementById('typed-name');
+    const nameStr = "Gastón Vigabriel";
+    let j = 0;
+    function type(){
+      if(j <= nameStr.length){
+        nameEl.innerHTML = nameStr.slice(0,j) + '<span class="cursor-blink"></span>';
+        j++; setTimeout(type, 100);
       }
     }
-    setTimeout(typeChar, 350);
-
-    // ─── SCROLL REVEAL (IntersectionObserver) ────────────────────────
-    const sections = document.querySelectorAll('.cv-section');
-    const revealObs = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          revealObs.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
-    sections.forEach(s => revealObs.observe(s));
-
-    // ─── COUNT-UP ANIMATION ───────────────────────────────────────────
-    function animateCountUp(el) {
-      const target   = parseInt(el.dataset.target, 10);
-      const duration = 1200;
-      const start    = performance.now();
-
-      function step(now) {
-        const elapsed  = now - start;
-        const progress = Math.min(elapsed / duration, 1);
-        const eased    = 1 - Math.pow(1 - progress, 3);
-        el.textContent = Math.floor(eased * target);
-        if (progress < 1) requestAnimationFrame(step);
-        else el.textContent = target;
-      }
-      requestAnimationFrame(step);
-    }
-
-    const countEls = document.querySelectorAll('.count-up');
-    const statsObs = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          animateCountUp(entry.target);
-          statsObs.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.5 });
-    countEls.forEach(el => statsObs.observe(el));
-
-    // ─── LANGUAGE BAR ANIMATION ───────────────────────────────────────
-    const langFills = document.querySelectorAll('.lang-bar-fill');
-    const langObs = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('animated');
-          langObs.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.8 });
-    langFills.forEach(el => langObs.observe(el));
-
-    // ─── SKILL TAG STAGGER ON REVEAL ─────────────────────────────────
-    const skillSections = document.querySelectorAll('.cv-section:has(.skill-tags)');
-    const skillObs = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const tags = entry.target.querySelectorAll('.skill-tag');
-          tags.forEach((tag, i) => {
-            tag.style.opacity = '0';
-            tag.style.transform = 'translateY(8px)';
-            tag.style.transition = `opacity .3s ease ${i * 40}ms, transform .3s ease ${i * 40}ms`;
-            setTimeout(() => {
-              tag.style.opacity = '1';
-              tag.style.transform = 'translateY(0)';
-            }, 80 + i * 40);
-          });
-          skillObs.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.15 });
-    skillSections.forEach(s => skillObs.observe(s));
+    setTimeout(type, 500);
   </script>
 </body>
 </html>

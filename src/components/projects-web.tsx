@@ -1,3 +1,5 @@
+"use client";
+
 import { ProjectMuseumCard } from "@/components/project-museum-card";
 import { portfolioProjects } from "@/data/portfolio-projects";
 

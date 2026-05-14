@@ -1,8 +1,13 @@
+"use client";
+
 import { ProjectMuseumCard } from "@/components/project-museum-card";
 import { featuredPortfolioProjects } from "@/data/portfolio-projects";
 import Link from "next/link";
+import { useLanguage } from "./language-context";
 
 export function Projects() {
+  const { t } = useLanguage();
+
   return (
     <section
       id="proyectos"
@@ -14,16 +19,16 @@ export function Projects() {
             <div className="flex items-center gap-3 mb-4">
               <span className="h-px w-8 bg-[var(--warm)]" />
               <span className="text-xs font-semibold tracking-[0.2em] uppercase text-[var(--fg-muted)]">
-                Trabajo selecto
+                {t("projects.eyebrow")}
               </span>
             </div>
             <h2 className="text-[clamp(2rem,5vw,3.5rem)] font-bold leading-[1.1] tracking-tight">
-              <span className="text-[var(--fg)]">Mis </span>
-              <span className="text-gradient-warm">Proyectos</span>
+              <span className="text-[var(--fg)]">{t("projects.title").split(' ')[0]} </span>
+              <span className="text-gradient-warm">{t("projects.title").split(' ').slice(1).join(' ')}</span>
             </h2>
           </div>
           <p className="text-sm text-[var(--fg-muted)] max-w-xs leading-relaxed">
-            Una seleccion curada de proyectos reales, mostrados como piezas de portfolio.
+            {t("projects.description")}
           </p>
         </div>
 
@@ -38,7 +43,7 @@ export function Projects() {
             href="/proyectos"
             className="group inline-flex items-center justify-center gap-2.5 px-7 py-3.5 text-sm font-semibold text-[var(--fg)] border border-[var(--border)] rounded-full hover:border-[var(--border-hover)] hover:bg-[var(--surface-1)] transition-all duration-300"
           >
-            Ver todos los proyectos
+            {t("projects.cta")}
             <svg
               width="16"
               height="16"

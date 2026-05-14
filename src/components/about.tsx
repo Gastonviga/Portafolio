@@ -1,159 +1,160 @@
+"use client";
+
 import Image from "next/image";
+import { useLanguage } from "./language-context";
+import { motion } from "framer-motion";
 
-interface TimelineEntry {
-  year: string;
-  title: string;
-  subtitle: string;
-  description: string;
-  type: "education" | "work";
-}
-
-const TIMELINE: TimelineEntry[] = [
-  {
-    year: "Actual",
-    title: "FullStack Developer",
-    subtitle: "ClauStudio",
-    description: "Proyectos en Paginas web y Aplicaciones web, totalmente personalizadas y optimizadas para el usuario, aplicandolas para el enfoque cotidiano de la empresa.",
-    type: "work",
-  },
-  {
-    year: "Actual",
-    title: "Licenciatura en Ciencias en Datos",
-    subtitle: "Universidad de Buenos Aires (UBA)",
-    description: "Cursando actualmente",
-    type: "education",
-  },
-];
-
-const SKILLS = ["Python", "AI/ML", "Docker", "TypeScript", "React", "Node.js", "Git"];
+const SKILLS = ["Python", "AI/ML", "Docker", "TypeScript", "React", "Node.js", "Git", "SQL", "Cloud"];
 
 export function About() {
+  const { t } = useLanguage();
+  const timeline = t("about.timeline") || [];
+  const stats = t("about.stats") || [];
+
   return (
     <section
       id="acerca"
-      className="relative py-24 sm:py-32 px-6 sm:px-8 overflow-hidden scroll-mt-16"
+      className="relative py-24 sm:py-32 px-6 sm:px-8 overflow-hidden scroll-mt-16 bg-[var(--bg)]"
     >
       <div className="relative max-w-7xl w-full mx-auto z-10">
-        {/* Section header — editorial style */}
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-16 lg:gap-24 items-start">
-          {/* Left column — sticky image + intro */}
-          <div className="lg:sticky lg:top-28">
-            <div className="space-y-8">
-              {/* Eyebrow */}
+        <div className="grid grid-cols-1 lg:grid-cols-[0.7fr_1.3fr] gap-12 lg:gap-20 items-start">
+          
+          {/* Left Column — Sticky Info Panel */}
+          <div className="lg:sticky lg:top-28 space-y-10">
+            <div className="space-y-6">
               <div className="flex items-center gap-3">
                 <span className="h-px w-8 bg-[var(--cold)]" />
-                <span className="text-xs font-semibold tracking-[0.2em] uppercase text-[var(--fg-muted)]">
-                  Acerca de mí
+                <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-[var(--fg-muted)]">
+                  {t("about.eyebrow")}
                 </span>
               </div>
 
-              <h2 className="text-[clamp(2rem,5vw,3.5rem)] font-bold leading-[1.1] tracking-tight">
-                <span className="text-[var(--fg)]">Gaston</span>
+              <h2 className="text-[clamp(2.5rem,5vw,3.5rem)] font-bold leading-[1] tracking-tight">
+                <span className="text-[var(--fg)]">{t("about.title_first")}</span>
                 <br />
-                <span className="text-gradient-dual">Vigabriel</span>
+                <span className="text-gradient-dual">{t("about.title_last")}</span>
               </h2>
 
-              <p className="text-base text-[var(--fg-muted)] leading-relaxed max-w-md">
-                Actualmente formandome en{" "}
-                <span className="text-[var(--warm)] font-medium">Ciencias en datos</span>{" "}
-               en la UBA. Apasionado por la innovación, el desarrollo web y la tecnología.
-              </p>
-
-              {/* Photo */}
-              <div className="relative mt-8">
-                <div className="relative w-full aspect-[3/4] max-w-sm rounded-2xl overflow-hidden">
-                  <Image
-                    src="/me2.jpg"
-                    alt="Ema trabajando en proyectos de desarrollo web e IA"
-                    width={400}
-                    height={600}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg)] via-transparent to-transparent opacity-50" />
-                </div>
-                {/* Decorative line */}
-                <div className="absolute -right-4 top-8 bottom-8 w-px bg-gradient-to-b from-transparent via-[var(--cold)]/30 to-transparent hidden lg:block" />
+              <div className="space-y-4">
+                <p className="text-base text-[var(--fg-muted)] leading-relaxed border-l border-[var(--border)] pl-5">
+                  {t("about.description")}
+                </p>
               </div>
             </div>
-          </div>
 
-          {/* Right column — Timeline + Skills */}
-          <div className="space-y-16">
-            {/* Timeline */}
-            <div className="space-y-0">
-              <h3 className="text-xs font-semibold tracking-[0.2em] uppercase text-[var(--fg-muted)] mb-10">
-                Trayectoria
-              </h3>
+            {/* Photo with refined frame */}
+            <div className="relative group max-w-[280px]">
+              <div className="absolute -inset-1 bg-gradient-to-tr from-[var(--warm)]/20 to-[var(--cold)]/20 rounded-xl blur-lg group-hover:opacity-60 transition-opacity duration-500" />
+              <div className="relative aspect-[4/5] rounded-xl overflow-hidden border border-[var(--border)] shadow-xl bg-[var(--surface-1)]">
+                <Image
+                  src="/me2.jpg"
+                  alt="Gaston"
+                  fill
+                  sizes="(max-width: 280px) 100vw, 280px"
+                  className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-100 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg)]/40 to-transparent" />
+              </div>
+            </div>
 
-              {TIMELINE.map((entry, i) => (
-                <div
-                  key={`${entry.title}-${i}`}
-                  className="group relative pl-8 pb-12 last:pb-0 border-l border-[var(--border)] hover:border-[var(--border-hover)] transition-colors duration-500"
-                >
-                  {/* Dot */}
-                  <div className={`absolute left-0 top-1 -translate-x-1/2 w-3 h-3 rounded-full border-2 transition-colors duration-300 ${
-                    entry.type === "work"
-                      ? "border-[var(--warm)] bg-[var(--warm)]/20 group-hover:bg-[var(--warm)]"
-                      : "border-[var(--cold)] bg-[var(--cold)]/20 group-hover:bg-[var(--cold)]"
-                  }`} />
-
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-3 flex-wrap">
-                      <span className={`text-[11px] font-semibold tracking-wider uppercase px-2.5 py-1 rounded-full ${
-                        entry.type === "work"
-                          ? "bg-[var(--warm)]/10 text-[var(--warm)]"
-                          : "bg-[var(--cold)]/10 text-[var(--cold)]"
-                      }`}>
-                        {entry.year}
-                      </span>
-                      <span className={`text-[11px] font-medium tracking-wider uppercase ${
-                        entry.type === "work" ? "text-[var(--warm)]/60" : "text-[var(--cold)]/60"
-                      }`}>
-                        {entry.type === "work" ? "Trabajo" : "Educación"}
-                      </span>
-                    </div>
-                    <h4 className="text-lg font-bold text-[var(--fg)] group-hover:text-[var(--fg)] transition-colors">
-                      {entry.title}
-                    </h4>
-                    <p className="text-sm font-medium text-[var(--fg-muted)]">
-                      {entry.subtitle}
-                    </p>
-                    <p className="text-sm text-[var(--fg-muted)]/70 leading-relaxed">
-                      {entry.description}
-                    </p>
+            {/* Stats — more compact */}
+            <div className="flex items-center justify-between py-6 border-y border-[var(--border)]">
+              {stats.map((stat: any) => (
+                <div key={stat.label} className="text-center">
+                  <div className="text-xl font-bold text-[var(--fg)]">{stat.value}</div>
+                  <div className="text-[9px] font-bold text-[var(--fg-muted)] uppercase tracking-widest mt-0.5">
+                    {stat.label}
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Skills — horizontal chips */}
-            <div>
-              <h3 className="text-xs font-semibold tracking-[0.2em] uppercase text-[var(--fg-muted)] mb-6">
-                Stack Técnico
-              </h3>
-              <div className="flex flex-wrap gap-2.5">
-                {SKILLS.map((skill) => (
-                  <span
-                    key={skill}
-                    className="px-4 py-2 text-sm font-medium text-[var(--fg)] bg-[var(--surface-1)] border border-[var(--border)] rounded-full hover:border-[var(--border-hover)] hover:bg-[var(--surface-2)] transition-all duration-300 cursor-default"
-                  >
-                    {skill}
-                  </span>
-                ))}
+            {/* Skills — organized and serious */}
+            <div className="space-y-6">
+              <div className="space-y-3">
+                <h3 className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--warm)]">
+                  Core Technologies
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {["React", "Next.js", "TypeScript", "Node.js", "Python"].map((skill) => (
+                    <span
+                      key={skill}
+                      className="px-3 py-1.5 text-[10px] font-bold text-[var(--fg)] bg-[var(--surface-1)] border border-[var(--warm)]/20 rounded-md hover:border-[var(--warm)]/50 transition-all duration-300"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              
+              <div className="space-y-3">
+                <h3 className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--fg-muted)]">
+                  Complementary & Tools
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {["Docker", "SQL", "Tailwind CSS", "Framer Motion", "Cloud", "Git"].map((skill) => (
+                    <span
+                      key={skill}
+                      className="px-3 py-1.5 text-[10px] font-bold text-[var(--fg-muted)] bg-[var(--surface-0)] border border-[var(--border)] rounded-md hover:border-[var(--cold)]/30 transition-all duration-300"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
+          </div>
 
-            {/* Stats row */}
-            <div className="grid grid-cols-3 gap-6 pt-8 border-t border-[var(--border)]">
-              {[
-                { value: "5+", label: "Proyectos" },
-                { value: "1+", label: "Año exp." },
-                { value: "∞", label: "Curiosidad" },
-              ].map((stat) => (
-                <div key={stat.label} className="text-center sm:text-left">
-                  <div className="text-2xl sm:text-3xl font-bold text-[var(--fg)]">{stat.value}</div>
-                  <div className="text-xs text-[var(--fg-muted)] mt-1 tracking-wide">{stat.label}</div>
-                </div>
+          {/* Right Column — Timeline */}
+          <div className="relative pl-2 sm:pl-6">
+            <h3 className="text-[10px] font-bold tracking-[0.3em] uppercase text-[var(--fg-muted)] mb-12 flex items-center gap-4">
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--warm)]" />
+              {t("about.timeline_title")}
+            </h3>
+
+            {/* Timeline Line */}
+            <div className="absolute left-[11px] sm:left-[27px] top-24 bottom-4 w-px bg-gradient-to-b from-[var(--border)] via-[var(--border)] to-transparent" />
+
+            <div className="space-y-16">
+              {timeline.map((entry: any, i: number) => (
+                <motion.div
+                  key={`${entry.title}-${i}`}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 0.5, delay: i * 0.05 }}
+                  className="relative group pl-10 sm:pl-14"
+                >
+                  {/* Indicator Dot */}
+                  <div className={`absolute left-[-2px] sm:left-[14px] top-1.5 w-2.5 h-2.5 rounded-full border-2 bg-[var(--bg)] z-10 transition-transform duration-300 group-hover:scale-125 ${
+                    entry.type === "work" ? "border-[var(--warm)]" : "border-[var(--cold)]"
+                  }`} />
+                  
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-3">
+                      <span className={`text-[9px] font-black tracking-widest uppercase px-2 py-0.5 rounded ${
+                        entry.type === "work" 
+                          ? "text-[var(--warm)] bg-[var(--warm)]/10" 
+                          : "text-[var(--cold)] bg-[var(--cold)]/10"
+                      }`}>
+                        {entry.year}
+                      </span>
+                    </div>
+                    
+                    <div>
+                      <h4 className="text-xl font-bold text-[var(--fg)] leading-tight group-hover:text-[var(--warm)] transition-colors duration-300">
+                        {entry.title}
+                      </h4>
+                      <p className="text-[13px] font-semibold text-[var(--fg-muted)] mt-1">
+                        {entry.subtitle}
+                      </p>
+                    </div>
+
+                    <p className="text-[14px] text-[var(--fg-muted)]/80 leading-relaxed max-w-xl">
+                      {entry.description}
+                    </p>
+                  </div>
+                </motion.div>
               ))}
             </div>
           </div>

@@ -1,5 +1,9 @@
+"use client";
+
 import Image from "next/image";
 import type { PortfolioProject } from "@/data/portfolio-projects";
+import { useLanguage } from "./language-context";
+import { TechIcon } from "./tech-icons";
 
 interface ProjectMuseumCardProps {
   project: PortfolioProject;
@@ -7,6 +11,7 @@ interface ProjectMuseumCardProps {
 }
 
 export function ProjectMuseumCard({ project, index }: ProjectMuseumCardProps) {
+  const { t } = useLanguage();
   const accentClass =
     project.accent === "warm" ? "text-[var(--warm)]" : "text-[var(--cold)]";
   const borderClass =
@@ -72,20 +77,26 @@ export function ProjectMuseumCard({ project, index }: ProjectMuseumCardProps) {
 
           <div className="mt-7 pt-6 border-t border-[var(--border)]">
             <p className="text-[11px] font-semibold tracking-[0.18em] uppercase text-[var(--fg-muted)] mb-2">
-              Rol
+              {t("contact.name") === "Name" ? "Role" : "Rol"}
             </p>
             <p className="text-sm text-[var(--fg)]">{project.role}</p>
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-4 items-center">
           {project.stack.map((tech) => (
-            <span
+            <div
               key={tech}
-              className="px-3 py-1.5 text-[11px] font-medium text-[var(--fg-muted)] bg-[var(--surface-1)] border border-[var(--border)] rounded-full"
+              className="group/tech relative flex items-center justify-center p-2.5 bg-[var(--surface-1)] border border-[var(--border)] rounded-xl hover:border-[var(--warm)]/50 hover:bg-[var(--surface-2)] transition-all duration-300"
             >
-              {tech}
-            </span>
+              <TechIcon name={tech} className="w-5 h-5 text-[var(--fg-muted)] group-hover/tech:text-[var(--warm)] transition-colors" />
+              
+              {/* Tooltip */}
+              <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2.5 py-1.5 bg-[var(--fg)] text-[var(--bg)] text-[10px] font-bold rounded-md opacity-0 translate-y-2 pointer-events-none group-hover/tech:opacity-100 group-hover/tech:translate-y-0 transition-all duration-300 whitespace-nowrap z-20 shadow-xl">
+                {tech}
+                <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-[var(--fg)]" />
+              </div>
+            </div>
           ))}
         </div>
       </div>
