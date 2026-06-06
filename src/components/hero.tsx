@@ -1,9 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import { ContactForm } from "@/components/contact-form";
 import { useLanguage } from "./language-context";
+
+const fadeUp = (delay = 0) => ({
+  initial: { opacity: 0, y: 24 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1], delay },
+});
 
 const SOCIAL_LINKS = [
   {
@@ -20,7 +27,7 @@ const SOCIAL_LINKS = [
     href: "https://github.com/Gastonviga",
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-60.86 8.199-11.386 0-6.627-5.373-12-12-12z" />
+        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
       </svg>
     ),
   },
@@ -38,65 +45,59 @@ const SOCIAL_LINKS = [
 export function Hero() {
   const { t } = useLanguage();
   const [contactOpen, setContactOpen] = useState(false);
-  const [showCvPhoto, setShowCvPhoto] = useState(false);
-  const [autoSwapPhoto, setAutoSwapPhoto] = useState(false);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(hover: none), (pointer: coarse)");
-    const updateMode = () => setAutoSwapPhoto(mediaQuery.matches);
-
-    updateMode();
-    mediaQuery.addEventListener("change", updateMode);
-
-    return () => mediaQuery.removeEventListener("change", updateMode);
-  }, []);
-
-  useEffect(() => {
-    if (!autoSwapPhoto) {
-      setShowCvPhoto(false);
-      return;
-    }
-
-    const timer = window.setInterval(() => {
-      setShowCvPhoto((current) => !current);
-    }, 3000);
-
-    return () => window.clearInterval(timer);
-  }, [autoSwapPhoto]);
 
   return (
     <>
-    <section
-      id="inicio"
-      className="relative min-h-screen flex flex-col justify-center px-6 sm:px-8 pt-24 pb-16 overflow-hidden scroll-mt-0"
-    >
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-1/4 -right-1/4 w-[60vw] h-[60vw] rounded-full bg-[var(--warm)] opacity-[0.04] blur-[120px]" />
-        <div className="absolute -bottom-1/4 -left-1/4 w-[50vw] h-[50vw] rounded-full bg-[var(--cold)] opacity-[0.05] blur-[120px]" />
-      </div>
+      <section
+        id="inicio"
+        className="relative min-h-screen grid grid-cols-1 lg:grid-cols-2 overflow-hidden scroll-mt-0"
+      >
+        {/* ── Left: content ── */}
+        <div className="relative flex flex-col justify-center px-8 sm:px-12 lg:px-16 xl:px-20 pt-28 pb-16 z-10">
 
-      <div className="relative max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-12 lg:gap-20 items-center z-10">
-        <div className="space-y-8 sm:space-y-10 order-2 lg:order-1">
-          <div className="flex items-center gap-3">
+          {/* Eyebrow */}
+          <motion.div className="flex items-center gap-3 mb-8" {...fadeUp(0.1)}>
             <span className="h-px w-8 bg-[var(--warm)]" />
             <span className="text-xs font-semibold tracking-[0.2em] uppercase text-[var(--fg-muted)]">
               {t("hero.eyebrow")}
             </span>
-          </div>
+          </motion.div>
 
-          <div>
-            <h1 className="text-[clamp(2.5rem,8vw,7rem)] font-bold leading-[0.9] tracking-tight">
-              <span className="text-[var(--fg)]">{t("hero.greeting")}</span>
-              <br />
-              <span className="text-gradient-dual">{t("hero.name")}</span>
-            </h1>
-          </div>
+          {/* Name */}
+          <h1 className="text-[clamp(3rem,7vw,6rem)] font-bold leading-[0.92] tracking-tight mb-8">
+            {/* Greeting — fade up */}
+            <motion.span
+              className="block text-[var(--fg)]"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
+            >
+              {t("hero.greeting")}
+            </motion.span>
 
-          <p className="text-base sm:text-lg text-[var(--fg-muted)] leading-relaxed max-w-lg">
+            {/* Name — slide up from behind overflow clip */}
+            <span className="block overflow-hidden leading-none pb-1">
+              <motion.span
+                className="block text-gradient-dual"
+                initial={{ y: "110%" }}
+                animate={{ y: "0%" }}
+                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.28 }}
+              >
+                {t("hero.name")}
+              </motion.span>
+            </span>
+          </h1>
+
+          {/* Description */}
+          <motion.p
+            className="text-base sm:text-lg text-[var(--fg-muted)] leading-relaxed max-w-md mb-10"
+            {...fadeUp(0.35)}
+          >
             {t("hero.description")}
-          </p>
+          </motion.p>
 
-          <div className="flex flex-col sm:flex-row gap-4">
+          {/* CTAs */}
+          <motion.div className="flex flex-col sm:flex-row gap-4 mb-10" {...fadeUp(0.45)}>
             <button
               onClick={() => setContactOpen(true)}
               className="group relative inline-flex items-center justify-center gap-2.5 px-7 py-3.5 text-sm font-semibold text-[var(--bg)] bg-[var(--fg)] rounded-full overflow-hidden transition-all duration-300 hover:shadow-[0_0_30px_rgba(232,168,73,0.3)]"
@@ -105,8 +106,7 @@ export function Hero() {
               <span className="relative z-10 flex items-center gap-2">
                 {t("hero.cta_primary")}
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="group-hover:translate-x-1 transition-transform duration-300">
-                  <path d="M5 12h14" />
-                  <polyline points="12 5 19 12 12 19" />
+                  <path d="M5 12h14" /><polyline points="12 5 19 12 12 19" />
                 </svg>
               </span>
             </button>
@@ -117,78 +117,73 @@ export function Hero() {
               className="group inline-flex items-center justify-center gap-2.5 px-7 py-3.5 text-sm font-semibold text-[var(--fg)] border border-[var(--border)] rounded-full hover:border-[var(--border-hover)] hover:bg-[var(--surface-1)] transition-all duration-300"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300">
-                <path d="M7 17 17 7" />
-                <path d="M7 7h10v10" />
+                <path d="M7 17 17 7" /><path d="M7 7h10v10" />
               </svg>
               {t("hero.cta_secondary")}
             </a>
-          </div>
+          </motion.div>
 
-          <div className="flex items-center gap-4 pt-6">
-            {SOCIAL_LINKS.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={link.name}
-                className="p-2.5 rounded-full border border-[var(--border)] text-[var(--fg-muted)] hover:text-[var(--fg)] hover:border-[var(--border-hover)] hover:bg-[var(--surface-1)] transition-all duration-300"
-              >
-                {link.icon}
-              </a>
-            ))}
-          </div>
+          {/* Social + available badge */}
+          <motion.div className="flex items-center gap-5" {...fadeUp(0.55)}>
+            <div className="flex items-center gap-3">
+              {SOCIAL_LINKS.map((link) => (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={link.name}
+                  className="p-2.5 rounded-full border border-[var(--border)] text-[var(--fg-muted)] hover:text-[var(--fg)] hover:border-[var(--border-hover)] hover:bg-[var(--surface-1)] transition-all duration-300"
+                >
+                  {link.icon}
+                </a>
+              ))}
+            </div>
+            <div className="h-4 w-px bg-[var(--border)]" />
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="text-xs font-medium text-[var(--fg-muted)]">{t("hero.available")}</span>
+            </div>
+          </motion.div>
         </div>
 
-        <div className="flex justify-center lg:justify-end order-1 lg:order-2">
-          <div className="relative">
-            <div className="absolute -inset-3 sm:-inset-4 rounded-3xl border border-[var(--border)] -rotate-3" />
-            <div className="absolute -inset-3 sm:-inset-4 rounded-3xl border border-[var(--warm)]/10 rotate-2" />
-
-            <div
-              className="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-[22rem] lg:h-[22rem] rounded-2xl overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-[var(--warm)]/70"
-              tabIndex={0}
-              aria-label="Profile photo"
-              onMouseEnter={() => { if (!autoSwapPhoto) setShowCvPhoto(true); }}
-              onMouseLeave={() => { if (!autoSwapPhoto) setShowCvPhoto(false); }}
-            >
-              <Image
-                src="/me.jpg"
-                alt="Gaston"
-                fill
-                sizes="(max-width: 640px) 16rem, (max-width: 1024px) 20rem, 22rem"
-                className={`object-cover transition-opacity duration-500 ease-out ${
-                  showCvPhoto ? "opacity-0" : "opacity-100"
-                }`}
-                priority
-              />
-              <Image
-                src="/cv.jpg"
-                alt="Gaston CV"
-                fill
-                sizes="(max-width: 640px) 16rem, (max-width: 1024px) 20rem, 22rem"
-                className={`object-cover transition-opacity duration-500 ease-out ${
-                  showCvPhoto ? "opacity-100" : "opacity-0"
-                }`}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg)]/40 via-transparent to-transparent" />
-            </div>
-
-            <div className="absolute -bottom-4 -left-4 sm:-bottom-5 sm:-left-5 px-4 py-2.5 bg-[var(--bg)] border border-[var(--border)] rounded-xl backdrop-blur-sm">
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-xs font-medium text-[var(--fg-muted)]">{t("hero.available")}</span>
-              </div>
-            </div>
-          </div>
+        {/* ── Right: full-bleed photo (desktop) ── */}
+        <div
+          className="relative hidden lg:block"
+          style={{
+            backgroundImage: "url('/profile-cv.png')",
+            backgroundSize: "cover",
+            backgroundPosition: "center 15%",
+          }}
+        >
+          {/* Dark overlay to blend with dark theme */}
+          <div className="absolute inset-0 bg-[var(--bg)]/20" />
+          {/* Left edge fade */}
+          <div className="absolute inset-y-0 left-0 w-56 bg-gradient-to-r from-[var(--bg)] to-transparent z-10" />
+          {/* Bottom fade */}
+          <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[var(--bg)] to-transparent z-10" />
+          {/* Top fade */}
+          <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[var(--bg)] to-transparent z-10" />
         </div>
-      </div>
 
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
-        <span className="text-[10px] tracking-[0.3em] uppercase text-[var(--fg-muted)]">Scroll</span>
-        <div className="w-px h-8 bg-gradient-to-b from-[var(--fg-muted)] to-transparent animate-bounce" />
-      </div>
-    </section>
+        {/* ── Mobile photo ── */}
+        <div className="relative block lg:hidden h-72 mx-6 mb-8 rounded-2xl overflow-hidden border border-[var(--border)]">
+          <Image
+            src="/profile-cv.png"
+            alt="Gastón Vigabriel"
+            fill
+            sizes="100vw"
+            className="object-cover object-top"
+            priority
+          />
+        </div>
+
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 left-8 hidden lg:flex flex-col items-center gap-2 z-20">
+          <span className="text-[10px] tracking-[0.3em] uppercase text-[var(--fg-muted)]">Scroll</span>
+          <div className="w-px h-8 bg-gradient-to-b from-[var(--fg-muted)] to-transparent animate-bounce" />
+        </div>
+      </section>
 
       <ContactForm open={contactOpen} onClose={() => setContactOpen(false)} />
     </>

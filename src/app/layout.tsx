@@ -6,10 +6,64 @@ import { StarBackground } from "@/components/star-background";
 import { PageLoader } from "@/components/page-loader";
 import { LanguageProvider } from "@/components/language-context";
 import { ThemeProvider } from "@/components/theme-provider";
+import { CustomCursor } from "@/components/custom-cursor";
 
 export const metadata: Metadata = {
-  title: "Ema | Desarrollador Web & IA",
-  description: "Portafolio de Ema - Estudiante de Inteligencia Artificial y desarrollador web especializado en crear experiencias digitales innovadoras.",
+  title: {
+    default: "Gastón Vigabriel — Arquitecto Web & Full Stack Developer",
+    template: "%s | Gastón Vigabriel",
+  },
+  description:
+    "Portafolio de Gastón Vigabriel. Arquitecto web freelance especializado en sitios modernos, rápidos y a medida para profesionales y negocios. Fundador de Viga Studio.",
+  keywords: [
+    "desarrollador web",
+    "freelance",
+    "Next.js",
+    "React",
+    "diseño web",
+    "portfolio",
+    "Viga Studio",
+    "Buenos Aires",
+    "Argentina",
+    "Full Stack Developer",
+  ],
+  authors: [{ name: "Gastón Vigabriel", url: "https://gastonvigabriel.com" }],
+  creator: "Gastón Vigabriel",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  openGraph: {
+    type: "website",
+    locale: "es_AR",
+    url: "https://gastonvigabriel.com",
+    siteName: "Gastón Vigabriel",
+    title: "Gastón Vigabriel — Arquitecto Web & Full Stack Developer",
+    description:
+      "Portafolio de Gastón Vigabriel. Webs modernas y rápidas para profesionales y negocios. Fundador de Viga Studio.",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Gastón Vigabriel — Arquitecto Web",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Gastón Vigabriel — Arquitecto Web & Full Stack Developer",
+    description:
+      "Webs modernas y rápidas para profesionales y negocios. Fundador de Viga Studio.",
+    images: ["/og-image.jpg"],
+  },
 };
 
 export default function RootLayout({
@@ -39,6 +93,7 @@ export default function RootLayout({
       <body className="bg-[var(--bg)] text-[var(--fg)] min-h-screen antialiased">
         <LanguageProvider>
           <ThemeProvider>
+            <CustomCursor />
             <PageLoader />
             <StarBackground />
             <SmoothScroll />

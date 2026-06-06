@@ -83,21 +83,52 @@ export function ProjectMuseumCard({ project, index }: ProjectMuseumCardProps) {
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-4 items-center">
-          {project.stack.map((tech) => (
-            <div
-              key={tech}
-              className="group/tech relative flex items-center justify-center p-2.5 bg-[var(--surface-1)] border border-[var(--border)] rounded-xl hover:border-[var(--warm)]/50 hover:bg-[var(--surface-2)] transition-all duration-300"
-            >
-              <TechIcon name={tech} className="w-5 h-5 text-[var(--fg-muted)] group-hover/tech:text-[var(--warm)] transition-colors" />
-              
-              {/* Tooltip */}
-              <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2.5 py-1.5 bg-[var(--fg)] text-[var(--bg)] text-[10px] font-bold rounded-md opacity-0 translate-y-2 pointer-events-none group-hover/tech:opacity-100 group-hover/tech:translate-y-0 transition-all duration-300 whitespace-nowrap z-20 shadow-xl">
-                {tech}
-                <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-[var(--fg)]" />
+        <div className="space-y-4">
+          <div className="flex flex-wrap gap-4 items-center">
+            {project.stack.map((tech) => (
+              <div
+                key={tech}
+                className="group/tech relative flex items-center justify-center p-2.5 bg-[var(--surface-1)] border border-[var(--border)] rounded-xl hover:border-[var(--warm)]/50 hover:bg-[var(--surface-2)] transition-all duration-300"
+              >
+                <TechIcon name={tech} className="w-5 h-5 text-[var(--fg-muted)] group-hover/tech:text-[var(--warm)] transition-colors" />
+
+                {/* Tooltip */}
+                <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2.5 py-1.5 bg-[var(--fg)] text-[var(--bg)] text-[10px] font-bold rounded-md opacity-0 translate-y-2 pointer-events-none group-hover/tech:opacity-100 group-hover/tech:translate-y-0 transition-all duration-300 whitespace-nowrap z-20 shadow-xl">
+                  {tech}
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-[var(--fg)]" />
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+
+          {project.liveUrl && (
+            <a
+              href={project.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`group/cta inline-flex items-center gap-2 px-5 py-2.5 text-xs font-semibold tracking-wide border rounded-full transition-all duration-300 ${
+                project.accent === "warm"
+                  ? "border-[var(--warm)]/30 text-[var(--warm)] hover:bg-[var(--warm)]/10 hover:border-[var(--warm)]/60"
+                  : "border-[var(--cold)]/30 text-[var(--cold)] hover:bg-[var(--cold)]/10 hover:border-[var(--cold)]/60"
+              }`}
+            >
+              Ver proyecto
+              <svg
+                width="13"
+                height="13"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5 transition-transform duration-300"
+              >
+                <path d="M7 17 17 7" />
+                <path d="M7 7h10v10" />
+              </svg>
+            </a>
+          )}
         </div>
       </div>
     </article>

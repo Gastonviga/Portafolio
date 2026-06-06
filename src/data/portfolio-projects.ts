@@ -9,25 +9,10 @@ export interface PortfolioProject {
   details: string[];
   accent: "warm" | "cold";
   featured?: boolean;
+  liveUrl?: string;
 }
 
 export const portfolioProjects: PortfolioProject[] = [
-  {
-    slug: "arca-facturacion",
-    title: "Módulo de Facturación ARCA",
-    category: "Integración de Servicios Gubernamentales",
-    summary:
-      "Desarrollo de un microservicio crítico para la gestión de facturación electrónica integrada directamente con los servicios web de ARCA (AFIP). Maneja protocolos SOAP complejos, firma digital de certificados y garantiza la validez fiscal de las transacciones en tiempo real.",
-    role: "Backend & Integration Developer",
-    stack: ["Node.js", "Express", "SOAP", "Cryptography", "PostgreSQL"],
-    cover: "https://brauni.io/DashBoard%20Ligth%20Brauni.png",
-    details: [
-      "https://cdn.tusfacturas.app/web/images/tusfacturasapp-home-screenshot.webp",
-      "https://cdn.tusfacturas.app/web/images/tusfacturasapp-productos-screenshot.webp"
-    ],
-    accent: "cold",
-    featured: true,
-  },
   {
     slug: "areacam",
     title: "AREACAM",
@@ -39,20 +24,7 @@ export const portfolioProjects: PortfolioProject[] = [
     cover: "/projects/areacam/cover.png",
     details: ["/projects/areacam/detail-1.png", "/projects/areacam/mobile.png"],
     accent: "cold",
-    featured: true,
-  },
-  {
-    slug: "app-turnos",
-    title: "Sistema de Turnos Pro",
-    category: "App de Gestión Multiplataforma",
-    summary:
-      "Ecosistema completo para la gestión de citas que incluye una API REST desarrollada con Spring Boot y aplicaciones móviles multiplataforma. Gestiona flujos complejos de disponibilidad, notificaciones push y sincronización en tiempo real.",
-    role: "Full Stack & Mobile Developer",
-    stack: ["Java", "Spring Boot", "React Native", "PostgreSQL", "REST API"],
-    cover: "https://github.com/JIgnacioEchevarria/turns-app/raw/main/assets/screenshots/calendar.PNG",
-    details: ["https://github.com/JIgnacioEchevarria/turns-app/raw/main/assets/screenshots/home.PNG"],
-    accent: "cold",
-    featured: true,
+    featured: false,
   },
   {
     slug: "ministock",
@@ -78,7 +50,7 @@ export const portfolioProjects: PortfolioProject[] = [
     cover: "/projects/budongsan/cover.png",
     details: ["/projects/budongsan/detail-1.png", "/projects/budongsan/mobile.png"],
     accent: "warm",
-    featured: false,
+    featured: true,
   },
   {
     slug: "egao",
@@ -91,7 +63,7 @@ export const portfolioProjects: PortfolioProject[] = [
     cover: "/projects/egao/cover.png",
     details: ["/projects/egao/detail-1.png", "/projects/egao/mobile.png"],
     accent: "cold",
-    featured: false,
+    featured: true,
   },
   {
     slug: "stanfit",
@@ -130,7 +102,7 @@ export const portfolioProjects: PortfolioProject[] = [
     cover: "/projects/estudio-navarro/cover.png",
     details: ["/projects/estudio-navarro/detail-1.png", "/projects/estudio-navarro/mobile.png"],
     accent: "cold",
-    featured: false,
+    featured: true,
   },
   {
     slug: "portfolio-arquitect",

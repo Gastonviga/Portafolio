@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+/* === Custom cursor (desktop only) === */
+@media (pointer: fine) {
+  *, *::before, *::after {
+    cursor: none !important;
+  }
+}
+
 /* === EDITORIAL COSMIC — Warm Brutalism meets Deep Space === */
 :root {
   --bg: #050508;

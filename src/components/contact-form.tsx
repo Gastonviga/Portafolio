@@ -100,13 +100,17 @@ export function ContactForm({ open, onClose }: ContactFormProps) {
       >
         {/* Header */}
         <div className="flex items-start justify-between p-6 pb-0">
-          <div>
-            <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-[var(--fg-muted)] mb-1">
+          <div className="space-y-1">
+            <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-[var(--fg-muted)]">
               {t("contact.title")}
             </p>
             <h2 className="text-xl font-bold text-[var(--fg)]">
               {t("contact.subtitle")}
             </h2>
+            <div className="flex items-center gap-1.5 pt-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="text-[10px] text-[var(--fg-muted)]">{t("contact.response_time")}</span>
+            </div>
           </div>
           {!sent && (
             <button
@@ -184,7 +188,7 @@ export function ContactForm({ open, onClose }: ContactFormProps) {
                   rows={4}
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  placeholder="..."
+                  placeholder="Ej: Tengo un consultorio odontológico y necesito una web..."
                   className="w-full px-4 py-2.5 text-sm bg-[var(--surface-1)] border border-[var(--border)] rounded-xl text-[var(--fg)] placeholder:text-[var(--fg-muted)]/50 focus:outline-none focus:border-[var(--warm)] transition-colors duration-200 resize-none"
                 />
               </div>
